@@ -53,6 +53,14 @@
             border: 0;
         }
 
+        .button-reset {
+            width: 100%;
+            color: inherit;
+            text-align: left;
+            background: transparent;
+            cursor: pointer;
+        }
+
         .hero {
             position: relative;
             min-height: 300px;
@@ -308,6 +316,18 @@
             box-shadow: 0 10px 28px rgba(38, 38, 38, 0.20);
         }
 
+        .product-card-button {
+            cursor: pointer;
+        }
+
+        .product-card-button:focus-visible,
+        .sheet-link:focus-visible,
+        .back-button:focus-visible,
+        .category-button:focus-visible {
+            outline: 3px solid rgba(21, 153, 71, 0.38);
+            outline-offset: 3px;
+        }
+
         .product-name {
             margin: 0 0 11px;
             color: var(--negro);
@@ -332,6 +352,40 @@
             margin: auto 0 14px;
             background-image: linear-gradient(90deg, rgba(38, 38, 38, 0.20) 45%, transparent 45%);
             background-size: 5px 1px;
+        }
+
+        .card-action {
+            margin-top: auto;
+            color: var(--verde);
+            font-size: 0.75rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 34px;
+            margin-bottom: 18px;
+            padding: 0 18px;
+            border: 1px solid rgba(21, 153, 71, 0.48);
+            border-radius: var(--radio);
+            color: var(--verde);
+            background: var(--blanco);
+            font-size: 0.74rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: color 160ms ease, background 160ms ease, transform 160ms ease;
+        }
+
+        .back-button:hover {
+            color: var(--blanco);
+            background: var(--verde);
+            transform: translateX(-2px);
         }
 
         .sheet-link {
@@ -473,19 +527,27 @@
     <script>
         const PDF_PLACEHOLDER = "https://example.com/ficha.pdf";
 
+        function opcionesEjes() {
+            return [
+                { nombre: "2 ejes", descripcion: "Ficha técnica para disposición de dos ejes.", pdf: PDF_PLACEHOLDER },
+                { nombre: "3 ejes", descripcion: "Ficha técnica para disposición de tres ejes.", pdf: PDF_PLACEHOLDER },
+                { nombre: "4 ejes", descripcion: "Ficha técnica para disposición de cuatro ejes.", pdf: PDF_PLACEHOLDER }
+            ];
+        }
+
         const categorias = [
             {
                 id: "acoplados",
                 nombre: "Acoplados",
                 productos: [
-                    { nombre: "Baranda volcable", descripcion: "Acoplado con sistema de barandas volcables para cargas a granel." },
-                    { nombre: "Curtain sider", descripcion: "Acoplado con lonas corredizas y laterales desmontables." },
-                    { nombre: "Playo", descripcion: "Acoplado tipo playa para transporte de cargas generales." },
-                    { nombre: "Paquetero", descripcion: "Acoplado cerrado ideal para cargas fraccionadas." },
-                    { nombre: "Forestal", descripcion: "Acoplado forestal para transporte de rollizos y cargas largas." },
-                    { nombre: "Volcador bilateral", descripcion: "Acoplado volcador con descarga lateral a ambos lados." },
-                    { nombre: "Todo puertas", descripcion: "Acoplado con apertura total lateral y trasera." },
-                    { nombre: "Isotérmico", descripcion: "Acoplado térmico con aislamiento para cargas refrigeradas." }
+                    { nombre: "Baranda volcable", descripcion: "Acoplado con sistema de barandas volcables para cargas a granel.", opciones: opcionesEjes() },
+                    { nombre: "Curtain sider", descripcion: "Acoplado con lonas corredizas y laterales desmontables.", opciones: opcionesEjes() },
+                    { nombre: "Playo", descripcion: "Acoplado tipo playa para transporte de cargas generales.", opciones: opcionesEjes() },
+                    { nombre: "Paquetero", descripcion: "Acoplado cerrado ideal para cargas fraccionadas.", opciones: opcionesEjes() },
+                    { nombre: "Forestal", descripcion: "Acoplado forestal para transporte de rollizos y cargas largas.", opciones: opcionesEjes() },
+                    { nombre: "Volcador bilateral", descripcion: "Acoplado volcador con descarga lateral a ambos lados.", opciones: opcionesEjes() },
+                    { nombre: "Todo puertas", descripcion: "Acoplado con apertura total lateral y trasera.", opciones: opcionesEjes() },
+                    { nombre: "Isotérmico", descripcion: "Acoplado térmico con aislamiento para cargas refrigeradas.", opciones: opcionesEjes() }
                 ]
             },
             {
@@ -523,6 +585,15 @@
         const categoryList = document.querySelector("#categoryList");
         const catalogView = document.querySelector("#catalogView");
 
+        function crearSlug(texto) {
+            return texto
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/(^-|-$)/g, "");
+        }
+
         function crearBotonesCategoria() {
             categoryList.innerHTML = categorias.map((categoria) => `
                 <button class="category-button" type="button" data-category="${categoria.id}" aria-pressed="false">
@@ -544,8 +615,8 @@
             actualizarBotones(categoria.id);
 
             const productosHtml = categoria.productos.length
-                ? categoria.productos.map(crearTarjetaProducto).join("")
-                : `<div class="empty-state">Todavía no hay fichas cargadas en esta categoría.</div>`;
+                ? categoria.productos.map((producto) => crearTarjetaProducto(producto)).join("")
+                : `<div class="empty-state">Todavía no hay unidades cargadas en esta categoría.</div>`;
 
             catalogView.innerHTML = `
                 <div class="section-head">
@@ -560,12 +631,51 @@
         }
 
         function crearTarjetaProducto(producto) {
-            const pdf = producto.pdf || PDF_PLACEHOLDER;
+            return `
+                <button class="product-card product-card-button button-reset" type="button" data-product="${crearSlug(producto.nombre)}">
+                    <h3 class="product-name">${producto.nombre}</h3>
+                    <p class="product-description">${producto.descripcion}</p>
+                    <hr class="divider">
+                    <span class="card-action">Seleccionar unidad</span>
+                </button>
+            `;
+        }
+
+        function mostrarProducto(idCategoria, slugProducto) {
+            const categoria = categorias.find((item) => item.id === idCategoria) || categorias[0];
+            const producto = categoria.productos.find((item) => crearSlug(item.nombre) === slugProducto);
+
+            if (!producto) {
+                mostrarCategoria(categoria.id);
+                return;
+            }
+
+            actualizarBotones(categoria.id);
+
+            const opcionesHtml = producto.opciones?.length
+                ? producto.opciones.map(crearTarjetaOpcion).join("")
+                : `<div class="empty-state">Las opciones para esta unidad se cargarán más adelante.</div>`;
+
+            catalogView.innerHTML = `
+                <button class="back-button" type="button" data-back-category="${categoria.id}">Volver a ${categoria.nombre}</button>
+                <div class="section-head">
+                    <div class="section-title-wrap">
+                        <h2 class="section-title">${producto.nombre}</h2>
+                    </div>
+                </div>
+                <div class="products-grid">${opcionesHtml}</div>
+            `;
+
+            history.replaceState(null, "", `#${categoria.id}/${slugProducto}`);
+        }
+
+        function crearTarjetaOpcion(opcion) {
+            const pdf = opcion.pdf || PDF_PLACEHOLDER;
 
             return `
                 <article class="product-card">
-                    <h3 class="product-name">${producto.nombre}</h3>
-                    <p class="product-description">${producto.descripcion}</p>
+                    <h3 class="product-name">${opcion.nombre}</h3>
+                    <p class="product-description">${opcion.descripcion}</p>
                     <hr class="divider">
                     <a class="sheet-link" href="${pdf}" target="_blank" rel="noopener noreferrer">
                         Ver ficha técnica
@@ -581,6 +691,22 @@
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
 
+        catalogView.addEventListener("click", (event) => {
+            const volver = event.target.closest("[data-back-category]");
+            if (volver) {
+                mostrarCategoria(volver.dataset.backCategory);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                return;
+            }
+
+            const producto = event.target.closest("[data-product]");
+            if (!producto) return;
+
+            const categoriaActiva = document.querySelector(".category-button.active")?.dataset.category || "acoplados";
+            mostrarProducto(categoriaActiva, producto.dataset.product);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
         document.addEventListener("keydown", (event) => {
             const numero = Number(event.key);
             if (numero >= 1 && numero <= categorias.length) {
@@ -591,7 +717,14 @@
         function iniciar() {
             crearBotonesCategoria();
             const hashInicial = window.location.hash.replace("#", "");
-            mostrarCategoria(hashInicial || "acoplados");
+            const [categoriaInicial, productoInicial] = hashInicial.split("/");
+
+            if (categoriaInicial && productoInicial) {
+                mostrarProducto(categoriaInicial, productoInicial);
+                return;
+            }
+
+            mostrarCategoria(categoriaInicial || "acoplados");
         }
 
         iniciar();
