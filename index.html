@@ -595,9 +595,9 @@
 
             <div class="hero-content">
                 <p class="hero-kicker">Catálogo técnico</p>
-                <h1 class="hero-title">Banco de unidades</h1>
+                <h1 class="hero-title" id="heroTitle">Banco de unidades</h1>
                 <div class="red-rule" aria-hidden="true"></div>
-                <p class="hero-description">Acceso rápido a la información de cada unidad</p>
+                <p class="hero-description" id="heroDescription">Acceso rápido a la información de cada unidad</p>
             </div>
         </div>
     </header>
@@ -696,7 +696,16 @@
         const categoryPanel = document.querySelector(".category-panel");
         const categoryList = document.querySelector("#categoryList");
         const catalogView = document.querySelector("#catalogView");
+        const heroTitle = document.querySelector("#heroTitle");
+        const heroDescription = document.querySelector("#heroDescription");
         let seccionActual = "inicio";
+
+        const HERO_CONTENT = {
+            inicio: { titulo: "Banco de unidades", descripcion: "Acceso rápido a la información de cada unidad" },
+            fichas: { titulo: "Fichas técnicas", descripcion: "Acceso rápido a las fichas técnicas de unidades" },
+            fotos: { titulo: "Banco de fotos", descripcion: "Acceso rápido a las fotos de cada unidad" },
+            adicionales: { titulo: "Adicionales", descripcion: "Acceso rápido a los adicionales" }
+        };
 
         function crearSlug(texto) {
             return texto
@@ -711,6 +720,12 @@
             menuButtons.forEach((button) => {
                 button.classList.toggle("active", button.dataset.section === seccion);
             });
+        }
+
+        function actualizarHero(seccion) {
+            const contenido = HERO_CONTENT[seccion] || HERO_CONTENT.inicio;
+            heroTitle.textContent = contenido.titulo;
+            heroDescription.textContent = contenido.descripcion;
         }
 
         function crearBotonesCategoria() {
@@ -732,6 +747,7 @@
         function mostrarSeccion(seccion, categoriaId = "acoplados", productoSlug = "") {
             seccionActual = seccion;
             actualizarMenu(seccion);
+            actualizarHero(seccion);
             categoryPanel.hidden = !(seccion === "fichas" || seccion === "fotos");
 
             if (seccion === "inicio") {
@@ -795,6 +811,7 @@
         function mostrarCategoria(idCategoria, seccion = "fichas") {
             seccionActual = seccion;
             actualizarMenu(seccion);
+            actualizarHero(seccion);
             categoryPanel.hidden = !(seccion === "fichas" || seccion === "fotos");
             const categoria = categorias.find((item) => item.id === idCategoria) || categorias[0];
             actualizarBotones(categoria.id);
