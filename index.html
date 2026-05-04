@@ -954,6 +954,136 @@
             }
         }
 
+        .variantes-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 70;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 200ms ease;
+        }
+
+        .variantes-modal[hidden] {
+            display: none;
+        }
+
+        .variantes-modal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .variantes-modal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .variantes-modal-content {
+            position: relative;
+            width: min(540px, 100%);
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 36px 32px 30px;
+            border-left: 5px solid var(--verde);
+            border-radius: var(--radio);
+            background: var(--blanco);
+            box-shadow: var(--sombra-panel);
+            transform: scale(0.96);
+            transition: transform 200ms ease;
+        }
+
+        .variantes-modal.open .variantes-modal-content {
+            transform: scale(1);
+        }
+
+        .variantes-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: var(--gris-texto);
+            font-size: 1.7rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: color 160ms ease;
+        }
+
+        .variantes-modal-close:hover {
+            color: var(--negro);
+        }
+
+        .variantes-modal-kicker {
+            margin: 0 0 4px;
+            color: var(--verde);
+            font-size: 0.72rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .variantes-modal-title {
+            margin: 0;
+            color: var(--negro);
+            font-size: clamp(1.4rem, 2.6vw, 1.8rem);
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        .variantes-modal-content .red-rule {
+            margin: 14px 0 22px;
+        }
+
+        .variantes-modal-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .variante-card {
+            display: flex;
+            flex-direction: column;
+            padding: 18px 22px;
+            border-left: 4px solid var(--verde);
+            border-radius: var(--radio);
+            background: #fafafa;
+        }
+
+        .variante-name {
+            margin: 0 0 6px;
+            color: var(--negro);
+            font-size: 1.05rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+        }
+
+        .variante-description {
+            margin: 0 0 14px;
+            color: var(--gris-texto);
+            font-size: 0.88rem;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .variante-card .sheet-link {
+            margin-top: auto;
+        }
+
+        body.variantes-open {
+            overflow: hidden;
+        }
+
         @media (prefers-reduced-motion: reduce) {
             *,
             *::before,
@@ -1590,6 +1720,17 @@
         <div class="search-modal-results" id="searchResultsModal" role="listbox"></div>
     </div>
 
+    <div class="variantes-modal" id="variantesModal" hidden aria-label="Variantes disponibles">
+        <div class="variantes-modal-overlay" id="variantesModalOverlay"></div>
+        <div class="variantes-modal-content">
+            <button class="variantes-modal-close" id="variantesModalClose" type="button" aria-label="Cerrar">×</button>
+            <p class="variantes-modal-kicker" id="variantesModalKicker"></p>
+            <h3 class="variantes-modal-title" id="variantesModalTitle"></h3>
+            <div class="red-rule" aria-hidden="true"></div>
+            <div class="variantes-modal-list" id="variantesModalList"></div>
+        </div>
+    </div>
+
     <script>
         const PDF_PLACEHOLDER = "https://example.com/ficha.pdf";
         const FOTO_PLACEHOLDER = "https://example.com/fotos";
@@ -1643,7 +1784,18 @@
                     { nombre: "Portacontenedor extensible", descripcion: "Unidad cuya estructura de chasis puede alargarse o acortarse para adaptarse a diferentes longitudes de contenedores o combinaciones de los mismos.", opciones: opcionesSemirremolque() },
                     { nombre: "Jaula simple", descripcion: "Unidad diseñada para el transporte de ganado, cuya estructura permite una correcta ventilación, contención y bienestar animal durante el traslado.", opciones: opcionesSemirremolque() },
                     { nombre: "Jaula doble piso", descripcion: "Unidad con estructura de jaula metálica de doble piso para carga ordenada y estable.", opciones: opcionesSemirremolque() },
-                    { nombre: "Batea", descripcion: "Unidad de transporte de plataforma abierta, sin laterales ni cerramientos.", opciones: opcionesSemirremolque() },
+                    { nombre: "Batea", descripcion: "Unidad de transporte de plataforma abierta, sin laterales ni cerramientos.", opciones: [
+                        { nombre: "1 eje", descripcion: "Ficha técnica para configuración de un eje.", pdf: PDF_PLACEHOLDER },
+                        { nombre: "2 ejes", descripcion: "Ficha técnica para configuración de dos ejes.", pdf: PDF_PLACEHOLDER },
+                        { nombre: "3 ejes", descripcion: "Ficha técnica para configuración de tres ejes.", pdf: PDF_PLACEHOLDER },
+                        { nombre: "1+1 eje", descripcion: "Ficha técnica para configuración 1+1 eje.", pdf: PDF_PLACEHOLDER },
+                        { nombre: "1+2 eje", descripcion: "Disponible en dos capacidades. Elegí la que necesitás.", variantes: [
+                            { nombre: "25 m³", descripcion: "Modelo estándar.", pdf: "https://lambert-remolques.github.io/Banco-de-Unidades/fichas/semirremolques/batea-1-2-eje-25-m3.pdf" },
+                            { nombre: "27 m³", descripcion: "Modelo de mayor capacidad.", pdf: "https://lambert-remolques.github.io/Banco-de-Unidades/fichas/semirremolques/batea-1-2-eje-27-m3.pdf" }
+                        ] },
+                        { nombre: "1+3 eje", descripcion: "Ficha técnica para configuración 1+3 eje.", pdf: PDF_PLACEHOLDER },
+                        { nombre: "1+1+1 eje", descripcion: "Ficha técnica para configuración 1+1+1 eje.", pdf: PDF_PLACEHOLDER }
+                    ] },
                     { nombre: "Bivuelco bicaja", descripcion: "Unidad diseñada para descarga de materiales sueltos mediante vuelco lateral hacia ambos lados, compuesta por dos cajas independientes montadas sobre una misma estructura.", opciones: opcionesSemirremolque() }
                 ]
             },
@@ -1696,6 +1848,7 @@
         const SCROLL_BAR_THRESHOLD = 100;
         const BACK_TO_TOP_THRESHOLD = 300;
         let seccionActual = "inicio";
+        let productoEnVista = null;
 
         function toggleDrawer(forceOpen) {
             const abrir = typeof forceOpen === "boolean" ? forceOpen : !siteMenu.classList.contains("open");
@@ -1935,6 +2088,7 @@
             actualizarBreadcrumb(seccion, categoria.id);
             categoryPanel.hidden = false;
             actualizarBotones(categoria.id);
+            productoEnVista = { categoria, producto, seccion };
 
             const opcionesHtml = producto.opciones?.length
                 ? producto.opciones.map((opcion) => crearTarjetaOpcion(opcion, seccion)).join("")
@@ -1954,6 +2108,17 @@
         }
 
         function crearTarjetaOpcion(opcion, seccion = "fichas") {
+            if (opcion.variantes?.length && seccion === "fichas") {
+                return `
+                    <button class="product-card product-card-button button-reset" type="button" data-variantes-opcion="${crearSlug(opcion.nombre)}">
+                        <h3 class="product-name">${opcion.nombre}</h3>
+                        <p class="product-description">${opcion.descripcion || ""}</p>
+                        <hr class="divider">
+                        <span class="card-action">Ver opciones</span>
+                    </button>
+                `;
+            }
+
             const descripcion = seccion === "fotos" ? "" : opcion.descripcion;
             const textoBoton = seccion === "fotos" ? "Ver fotos" : "Ver ficha técnica";
             const url = seccion === "fotos" ? FOTO_PLACEHOLDER : opcion.pdf || PDF_PLACEHOLDER;
@@ -2117,6 +2282,47 @@
             }
         });
 
+        const variantesModal = document.querySelector("#variantesModal");
+        const variantesModalContent = variantesModal.querySelector(".variantes-modal-content");
+        const variantesModalKicker = document.querySelector("#variantesModalKicker");
+        const variantesModalTitle = document.querySelector("#variantesModalTitle");
+        const variantesModalList = document.querySelector("#variantesModalList");
+        const variantesModalClose = document.querySelector("#variantesModalClose");
+        const variantesModalOverlay = document.querySelector("#variantesModalOverlay");
+
+        function abrirModalVariantes(producto, opcion) {
+            variantesModalKicker.textContent = producto.nombre;
+            variantesModalTitle.textContent = opcion.nombre;
+            variantesModalList.innerHTML = opcion.variantes.map((v) => `
+                <article class="variante-card">
+                    <h4 class="variante-name">${v.nombre}</h4>
+                    <p class="variante-description">${v.descripcion || ""}</p>
+                    <a class="sheet-link" href="${v.pdf}" target="_blank" rel="noopener noreferrer">Ver ficha técnica</a>
+                </article>
+            `).join("");
+            variantesModal.hidden = false;
+            requestAnimationFrame(() => variantesModal.classList.add("open"));
+            document.body.classList.add("variantes-open");
+            variantesModalContent.scrollTop = 0;
+        }
+
+        function cerrarModalVariantes() {
+            variantesModal.classList.remove("open");
+            document.body.classList.remove("variantes-open");
+            setTimeout(() => {
+                variantesModal.hidden = true;
+                variantesModalList.innerHTML = "";
+            }, 220);
+        }
+
+        variantesModalClose.addEventListener("click", cerrarModalVariantes);
+        variantesModalOverlay.addEventListener("click", cerrarModalVariantes);
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && variantesModal.classList.contains("open")) {
+                cerrarModalVariantes();
+            }
+        });
+
         categoryList.addEventListener("click", (event) => {
             const button = event.target.closest("[data-category]");
             if (!button) return;
@@ -2136,6 +2342,16 @@
             if (volver) {
                 mostrarCategoria(volver.dataset.backCategory, seccionActual);
                 window.scrollTo({ top: 0, behavior: "smooth" });
+                return;
+            }
+
+            const variantesBtn = event.target.closest("[data-variantes-opcion]");
+            if (variantesBtn && productoEnVista) {
+                const slug = variantesBtn.dataset.variantesOpcion;
+                const opcion = (productoEnVista.producto.opciones || []).find((o) => crearSlug(o.nombre) === slug);
+                if (opcion?.variantes?.length) {
+                    abrirModalVariantes(productoEnVista.producto, opcion);
+                }
                 return;
             }
 
