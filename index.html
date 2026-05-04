@@ -581,6 +581,15 @@
     </style>
 </head>
 <body>
+    <div id="login">
+  <h2>Iniciar sesión</h2>
+  <input type="email" id="email" placeholder="Email"><br><br>
+  <input type="password" id="password" placeholder="Contraseña"><br><br>
+  <button onclick="login()">Ingresar</button>
+  <p id="error" style="color:red;"></p>
+</div>
+
+<div id="contenido" style="display:none;">
     <header class="hero">
         <div class="hero-inner">
             <div class="top-nav">
@@ -980,5 +989,44 @@
 
         iniciar();
     </script>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBbqb2v1L_o5rLh38eOrBYcHNFrRYIxQLU",
+authDomain: "banco-de-unidades.firebaseapp.com",
+projectId: "banco-de-unidades",
+appId: "1:768534143671:web:723425177c89bd23532332"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    auth.signInWithEmailAndPassword(email, password)
+      .catch(() => {
+        document.getElementById("error").innerText = "Datos incorrectos";
+      });
+  }
+
+  function logout() {
+    auth.signOut();
+  }
+
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("contenido").style.display = "block";
+    } else {
+      document.getElementById("login").style.display = "block";
+      document.getElementById("contenido").style.display = "none";
+    }
+  });
+</script>
 </body>
 </html>
