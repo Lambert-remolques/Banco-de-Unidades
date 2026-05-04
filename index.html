@@ -61,6 +61,43 @@
             cursor: pointer;
         }
 
+        .top-nav {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .site-menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-top: 7px;
+        }
+
+        .menu-button {
+            min-height: 34px;
+            padding: 0 15px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: var(--radio);
+            color: rgba(255, 255, 255, 0.78);
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.72rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+        }
+
+        .menu-button:hover,
+        .menu-button.active {
+            color: var(--blanco);
+            border-color: var(--verde);
+            background: rgba(21, 153, 71, 0.32);
+        }
+
         .hero {
             position: relative;
             min-height: 300px;
@@ -105,7 +142,7 @@
             display: block;
             width: 190px;
             height: auto;
-            margin: 0 0 30px auto;
+            margin: 0;
             filter: drop-shadow(0 4px 9px rgba(0, 0, 0, 0.45));
         }
 
@@ -172,6 +209,10 @@
             padding: 22px;
             background: rgba(255, 255, 255, 0.94);
             box-shadow: var(--sombra-panel);
+        }
+
+        .category-panel[hidden] {
+            display: none;
         }
 
         .category-list {
@@ -298,6 +339,16 @@
             gap: 18px 26px;
         }
 
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 26px;
+        }
+
+        .home-card {
+            min-height: 230px;
+        }
+
         .product-card {
             position: relative;
             display: flex;
@@ -410,6 +461,15 @@
             transform: translateY(-1px);
         }
 
+        .construction-copy {
+            max-width: 760px;
+            margin: 0 0 24px;
+            color: var(--gris-texto);
+            font-size: 0.98rem;
+            font-weight: 500;
+            line-height: 1.55;
+        }
+
         .empty-state {
             padding: 28px;
             border-left: 5px solid var(--verde);
@@ -432,6 +492,10 @@
             .products-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
+
+            .home-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 720px) {
@@ -446,7 +510,21 @@
 
             .logo {
                 width: 158px;
+            }
+
+            .top-nav {
+                align-items: flex-end;
                 margin-bottom: 28px;
+            }
+
+            .site-menu {
+                gap: 7px;
+            }
+
+            .menu-button {
+                min-height: 30px;
+                padding: 0 9px;
+                font-size: 0.62rem;
             }
 
             .hero-content {
@@ -505,7 +583,15 @@
 <body>
     <header class="hero">
         <div class="hero-inner">
-            <img class="logo" src="LAMBERT blanco sin fondo.png" alt="Lambert">
+            <div class="top-nav">
+                <nav class="site-menu" aria-label="Secciones principales">
+                    <button class="menu-button active" type="button" data-section="inicio">Inicio</button>
+                    <button class="menu-button" type="button" data-section="fichas">Fichas técnicas</button>
+                    <button class="menu-button" type="button" data-section="fotos">Banco de fotos</button>
+                    <button class="menu-button" type="button" data-section="adicionales">Adicionales</button>
+                </nav>
+                <img class="logo" src="LAMBERT blanco sin fondo.png" alt="Lambert">
+            </div>
 
             <div class="hero-content">
                 <p class="hero-kicker">Catálogo técnico</p>
@@ -516,7 +602,7 @@
         </div>
     </header>
 
-    <nav class="category-panel" aria-label="Categorías de unidades">
+    <nav class="category-panel" aria-label="Categorías de unidades" hidden>
         <div class="category-list" id="categoryList"></div>
     </nav>
 
@@ -526,6 +612,7 @@
 
     <script>
         const PDF_PLACEHOLDER = "https://example.com/ficha.pdf";
+        const FOTO_PLACEHOLDER = "https://example.com/fotos";
 
         function opcionesEjes() {
             return [
@@ -535,55 +622,81 @@
             ];
         }
 
+        function opcionesSemirremolque() {
+            return [
+                { nombre: "1 eje", descripcion: "Ficha técnica para configuración de un eje.", pdf: PDF_PLACEHOLDER },
+                { nombre: "2 ejes", descripcion: "Ficha técnica para configuración de dos ejes.", pdf: PDF_PLACEHOLDER },
+                { nombre: "3 ejes", descripcion: "Ficha técnica para configuración de tres ejes.", pdf: PDF_PLACEHOLDER },
+                { nombre: "1+1 eje", descripcion: "Ficha técnica para configuración 1+1 eje.", pdf: PDF_PLACEHOLDER },
+                { nombre: "1+2 eje", descripcion: "Ficha técnica para configuración 1+2 eje.", pdf: PDF_PLACEHOLDER },
+                { nombre: "1+3 eje", descripcion: "Ficha técnica para configuración 1+3 eje.", pdf: PDF_PLACEHOLDER },
+                { nombre: "1+1+1 eje", descripcion: "Ficha técnica para configuración 1+1+1 eje.", pdf: PDF_PLACEHOLDER }
+            ];
+        }
+
         const categorias = [
             {
                 id: "acoplados",
                 nombre: "Acoplados",
                 productos: [
-                    { nombre: "Baranda volcable", descripcion: "Acoplado con sistema de barandas volcables para cargas a granel.", opciones: opcionesEjes() },
-                    { nombre: "Curtain sider", descripcion: "Acoplado con lonas corredizas y laterales desmontables.", opciones: opcionesEjes() },
-                    { nombre: "Playo", descripcion: "Acoplado tipo playa para transporte de cargas generales.", opciones: opcionesEjes() },
-                    { nombre: "Paquetero", descripcion: "Acoplado cerrado ideal para cargas fraccionadas.", opciones: opcionesEjes() },
-                    { nombre: "Forestal", descripcion: "Acoplado forestal para transporte de rollizos y cargas largas.", opciones: opcionesEjes() },
-                    { nombre: "Volcador bilateral", descripcion: "Acoplado volcador con descarga lateral a ambos lados.", opciones: opcionesEjes() },
-                    { nombre: "Todo puertas", descripcion: "Acoplado con apertura total lateral y trasera.", opciones: opcionesEjes() },
-                    { nombre: "Isotérmico", descripcion: "Acoplado térmico con aislamiento para cargas refrigeradas.", opciones: opcionesEjes() }
+                    { nombre: "Baranda volcable", descripcion: "Unidad con laterales abatibles que facilitan la carga y descarga, especialmente de material suelto o paletizado.", opciones: opcionesEjes() },
+                    { nombre: "Curtain sider", descripcion: "Unidad con laterales de lona corrediza y techo fijo, que permite el acceso lateral total.", opciones: opcionesEjes() },
+                    { nombre: "Playo", descripcion: "Unidad de piso plano sin estructura lateral cerrada, ideal para cargas voluminosas o piezas pesadas.", opciones: opcionesEjes() },
+                    { nombre: "Paquetero", descripcion: "Unidad con piso y laterales preparados para cargas agrupadas con cajas o paquetes.", opciones: opcionesEjes() },
+                    { nombre: "Forestal", descripcion: "Unidad con estructura reforzada y anclajes para transporte de madera y productos forestales.", opciones: opcionesEjes() },
+                    { nombre: "Volcador bilateral", descripcion: "Unidad que puede volcar carga hacia ambos lados del equipo.", opciones: opcionesEjes() },
+                    { nombre: "Todo puertas", descripcion: "Unidad con puertas en todos los laterales, facilitando la carga y descarga desde cualquier punto.", opciones: opcionesEjes() },
+                    { nombre: "Isotérmico", descripcion: "Unidad cerrada con aislamiento térmico para mantener temperaturas controladas.", opciones: opcionesEjes() },
+                    { nombre: "Tolva descarga ventral", descripcion: "Unidad equipada con sistema de descarga por tolva en la parte inferior.", opciones: opcionesEjes() }
                 ]
             },
             {
                 id: "semirremolques",
                 nombre: "Semirremolques",
                 productos: [
-                    { nombre: "Semirremolque playo", descripcion: "Semirremolque tipo playo para transporte de cargas generales." },
-                    { nombre: "Curtain sider", descripcion: "Semirremolque con lonas corredizas y laterales desmontables." },
-                    { nombre: "Baranda volcable", descripcion: "Semirremolque con sistema de barandas volcables." },
-                    { nombre: "Tolva", descripcion: "Semirremolque tolva para transporte y descarga de graneles." }
+                    { nombre: "Playo con frente", descripcion: "El playo con frente es una plataforma abierta que incorpora un frente estructural fijo, que actúa como elemento de contención y protección.", opciones: opcionesSemirremolque() },
+                    { nombre: "Curtain sider", descripcion: "Unidad con laterales de lona corrediza y techo fijo, que permite el acceso lateral total.", opciones: opcionesSemirremolque() },
+                    { nombre: "Baranda volcable", descripcion: "Unidad con laterales abatibles que facilitan la carga y descarga, especialmente de material suelto o paletizado.", opciones: opcionesSemirremolque() },
+                    { nombre: "Forestal", descripcion: "Unidad con estructura reforzada y anclajes para transporte de madera y productos forestales.", opciones: opcionesSemirremolque() },
+                    { nombre: "Isotérmico", descripcion: "Unidad cerrada con aislamiento térmico para mantener temperaturas controladas.", opciones: opcionesSemirremolque() },
+                    { nombre: "Tolva descarga ventral", descripcion: "Unidad equipada con sistema de descarga por tolva en la parte inferior.", opciones: opcionesSemirremolque() },
+                    { nombre: "Portacontenedor extensible", descripcion: "Unidad cuya estructura de chasis puede alargarse o acortarse para adaptarse a diferentes longitudes de contenedores o combinaciones de los mismos.", opciones: opcionesSemirremolque() },
+                    { nombre: "Jaula simple", descripcion: "Unidad diseñada para el transporte de ganado, cuya estructura permite una correcta ventilación, contención y bienestar animal durante el traslado.", opciones: opcionesSemirremolque() },
+                    { nombre: "Jaula doble piso", descripcion: "Unidad con estructura de jaula metálica de doble piso para carga ordenada y estable.", opciones: opcionesSemirremolque() },
+                    { nombre: "Batea", descripcion: "Unidad de transporte de plataforma abierta, sin laterales ni cerramientos.", opciones: opcionesSemirremolque() },
+                    { nombre: "Bivuelco bicaja", descripcion: "Unidad diseñada para descarga de materiales sueltos mediante vuelco lateral hacia ambos lados, compuesta por dos cajas independientes montadas sobre una misma estructura.", opciones: opcionesSemirremolque() }
                 ]
             },
             {
                 id: "carrocerias",
                 nombre: "Carrocerías",
                 productos: [
-                    { nombre: "Paquetero", descripcion: "Carrocería cerrada para distribución y cargas fraccionadas." },
-                    { nombre: "Baranda volcable", descripcion: "Carrocería con laterales volcables para carga general." },
-                    { nombre: "Todo puertas", descripcion: "Carrocería con apertura lateral y trasera." },
-                    { nombre: "Isotérmico", descripcion: "Carrocería térmica con aislamiento para cargas refrigeradas." }
+                    { nombre: "Curtain sider", descripcion: "Unidad con laterales de lona corrediza y techo fijo, que permite el acceso lateral total.", fichaDirecta: true },
+                    { nombre: "Todo puertas", descripcion: "Unidad con puertas en todos los laterales, facilitando la carga y descarga desde cualquier punto.", fichaDirecta: true },
+                    { nombre: "Volcadora", descripcion: "Unidad diseñada para la descarga de materiales sueltos mediante un sistema de vuelco, generalmente hacia atrás.", fichaDirecta: true },
+                    { nombre: "Isotérmica", descripcion: "Unidad cerrada con aislamiento térmico para mantener temperaturas controladas.", fichaDirecta: true },
+                    { nombre: "Bivuelco", descripcion: "Diseñada para descarga de materiales sueltos mediante vuelco lateral hacia ambos lados del vehículo. Este tipo de carrocería permite descargar la carga a izquierda o derecha.", fichaDirecta: true },
+                    { nombre: "Paquetera", descripcion: "Unidad con piso y laterales preparados para cargas agrupadas con cajas o paquetes.", fichaDirecta: true },
+                    { nombre: "Curtain sider barandas volcables", descripcion: "Unidad que combina barandas metálicas volcables en la parte inferior con laterales superiores de lona corrediza tipo curtain sider.", fichaDirecta: true },
+                    { nombre: "Pollera", descripcion: "Diseñada específicamente para el transporte de aves vivas, principalmente pollos, en condiciones que aseguren ventilación, contención y bienestar animal durante el traslado.", fichaDirecta: true }
                 ]
             },
             {
                 id: "bitrenes",
                 nombre: "Bitrenes",
                 productos: [
-                    { nombre: "Bitren playo", descripcion: "Configuración playo para cargas generales de alto volumen." },
-                    { nombre: "Bitren forestal", descripcion: "Configuración forestal para transporte de rollizos." },
-                    { nombre: "Bitren tolva", descripcion: "Configuración tolva para graneles con descarga controlada." },
-                    { nombre: "Bitren especial", descripcion: "Configuración especial desarrollada para necesidades específicas." }
+                    { nombre: "Barandas volcables", descripcion: "Unidad con laterales abatibles que facilitan la carga y descarga, especialmente de material suelto o paletizado.", fichaDirecta: true },
+                    { nombre: "Curtain sider", descripcion: "Unidad con laterales de lona corrediza y techo fijo, que permite el acceso lateral total.", fichaDirecta: true },
+                    { nombre: "Isotérmico", descripcion: "Unidad cerrada con aislamiento térmico para mantener temperaturas controladas.", fichaDirecta: true }
                 ]
             }
         ];
 
+        const menuButtons = document.querySelectorAll("[data-section]");
+        const categoryPanel = document.querySelector(".category-panel");
         const categoryList = document.querySelector("#categoryList");
         const catalogView = document.querySelector("#catalogView");
+        let seccionActual = "inicio";
 
         function crearSlug(texto) {
             return texto
@@ -592,6 +705,12 @@
                 .toLowerCase()
                 .replace(/[^a-z0-9]+/g, "-")
                 .replace(/(^-|-$)/g, "");
+        }
+
+        function actualizarMenu(seccion) {
+            menuButtons.forEach((button) => {
+                button.classList.toggle("active", button.dataset.section === seccion);
+            });
         }
 
         function crearBotonesCategoria() {
@@ -610,13 +729,83 @@
             });
         }
 
-        function mostrarCategoria(idCategoria) {
+        function mostrarSeccion(seccion, categoriaId = "acoplados", productoSlug = "") {
+            seccionActual = seccion;
+            actualizarMenu(seccion);
+            categoryPanel.hidden = !(seccion === "fichas" || seccion === "fotos");
+
+            if (seccion === "inicio") {
+                mostrarInicio();
+                return;
+            }
+
+            if (seccion === "adicionales") {
+                mostrarAdicionales();
+                return;
+            }
+
+            if (productoSlug) {
+                mostrarProducto(categoriaId, productoSlug, seccion);
+                return;
+            }
+
+            mostrarCategoria(categoriaId, seccion);
+        }
+
+        function mostrarInicio() {
+            catalogView.innerHTML = `
+                <div class="section-head">
+                    <div class="section-title-wrap">
+                        <h2 class="section-title">Inicio</h2>
+                    </div>
+                </div>
+                <p class="construction-copy">Banco interno para ordenar material técnico y visual de unidades. Elegí una sección para consultar fichas, revisar fotos o acceder a futuros adicionales.</p>
+                <div class="home-grid">
+                    ${crearTarjetaInicio("Fichas técnicas", "Consulta de fichas PDF por categoría, unidad y configuración.", "fichas")}
+                    ${crearTarjetaInicio("Banco de fotos", "Apartado en construcción para organizar fotos de unidades por categoría.", "fotos")}
+                    ${crearTarjetaInicio("Adicionales", "Sección en construcción para próximos recursos complementarios.", "adicionales")}
+                </div>
+            `;
+            history.replaceState(null, "", "#inicio");
+        }
+
+        function crearTarjetaInicio(nombre, descripcion, seccion) {
+            return `
+                <button class="product-card product-card-button button-reset home-card" type="button" data-go-section="${seccion}">
+                    <h3 class="product-name">${nombre}</h3>
+                    <p class="product-description">${descripcion}</p>
+                    <hr class="divider">
+                    <span class="card-action">Ingresar</span>
+                </button>
+            `;
+        }
+
+        function mostrarAdicionales() {
+            catalogView.innerHTML = `
+                <div class="section-head">
+                    <div class="section-title-wrap">
+                        <h2 class="section-title">Adicionales</h2>
+                    </div>
+                </div>
+                <div class="empty-state">Estamos construyendo este apartado. Más adelante se cargarán los adicionales disponibles.</div>
+            `;
+            history.replaceState(null, "", "#adicionales");
+        }
+
+        function mostrarCategoria(idCategoria, seccion = "fichas") {
+            seccionActual = seccion;
+            actualizarMenu(seccion);
+            categoryPanel.hidden = !(seccion === "fichas" || seccion === "fotos");
             const categoria = categorias.find((item) => item.id === idCategoria) || categorias[0];
             actualizarBotones(categoria.id);
 
             const productosHtml = categoria.productos.length
-                ? categoria.productos.map((producto) => crearTarjetaProducto(producto)).join("")
+                ? categoria.productos.map((producto) => crearTarjetaProducto(producto, seccion)).join("")
                 : `<div class="empty-state">Todavía no hay unidades cargadas en esta categoría.</div>`;
+
+            const notaFotos = seccion === "fotos"
+                ? `<p class="construction-copy">Estamos diseñando el apartado de fotos de unidades. Por ahora, cada unidad queda preparada con el botón "Ver fotos".</p>`
+                : "";
 
             catalogView.innerHTML = `
                 <div class="section-head">
@@ -624,36 +813,69 @@
                         <h2 class="section-title">${categoria.nombre}</h2>
                     </div>
                 </div>
+                ${notaFotos}
                 <div class="products-grid">${productosHtml}</div>
             `;
 
-            history.replaceState(null, "", `#${categoria.id}`);
+            history.replaceState(null, "", `#${seccion}/${categoria.id}`);
         }
 
-        function crearTarjetaProducto(producto) {
+        function crearTarjetaProducto(producto, seccion = "fichas") {
+            if (seccion === "fotos") {
+                if (producto.opciones?.length) {
+                    return crearTarjetaSeleccion(producto, "Seleccionar unidad", "");
+                }
+
+                return crearTarjetaAccion(producto.nombre, "", "Ver fotos", FOTO_PLACEHOLDER);
+            }
+
+            if (producto.fichaDirecta) {
+                return crearTarjetaAccion(producto.nombre, producto.descripcion, "Ver ficha técnica", producto.pdf || PDF_PLACEHOLDER);
+            }
+
+            return crearTarjetaSeleccion(producto, "Seleccionar unidad", producto.descripcion);
+        }
+
+        function crearTarjetaSeleccion(producto, accion, descripcion) {
             return `
                 <button class="product-card product-card-button button-reset" type="button" data-product="${crearSlug(producto.nombre)}">
                     <h3 class="product-name">${producto.nombre}</h3>
-                    <p class="product-description">${producto.descripcion}</p>
+                    <p class="product-description">${descripcion}</p>
                     <hr class="divider">
-                    <span class="card-action">Seleccionar unidad</span>
+                    <span class="card-action">${accion}</span>
                 </button>
             `;
         }
 
-        function mostrarProducto(idCategoria, slugProducto) {
+        function crearTarjetaAccion(nombre, descripcion, textoBoton, url) {
+            return `
+                <article class="product-card">
+                    <h3 class="product-name">${nombre}</h3>
+                    <p class="product-description">${descripcion}</p>
+                    <hr class="divider">
+                    <a class="sheet-link" href="${url}" target="_blank" rel="noopener noreferrer">
+                        ${textoBoton}
+                    </a>
+                </article>
+            `;
+        }
+
+        function mostrarProducto(idCategoria, slugProducto, seccion = "fichas") {
             const categoria = categorias.find((item) => item.id === idCategoria) || categorias[0];
             const producto = categoria.productos.find((item) => crearSlug(item.nombre) === slugProducto);
 
             if (!producto) {
-                mostrarCategoria(categoria.id);
+                mostrarCategoria(categoria.id, seccion);
                 return;
             }
 
+            seccionActual = seccion;
+            actualizarMenu(seccion);
+            categoryPanel.hidden = false;
             actualizarBotones(categoria.id);
 
             const opcionesHtml = producto.opciones?.length
-                ? producto.opciones.map(crearTarjetaOpcion).join("")
+                ? producto.opciones.map((opcion) => crearTarjetaOpcion(opcion, seccion)).join("")
                 : `<div class="empty-state">Las opciones para esta unidad se cargarán más adelante.</div>`;
 
             catalogView.innerHTML = `
@@ -666,35 +888,42 @@
                 <div class="products-grid">${opcionesHtml}</div>
             `;
 
-            history.replaceState(null, "", `#${categoria.id}/${slugProducto}`);
+            history.replaceState(null, "", `#${seccion}/${categoria.id}/${slugProducto}`);
         }
 
-        function crearTarjetaOpcion(opcion) {
-            const pdf = opcion.pdf || PDF_PLACEHOLDER;
+        function crearTarjetaOpcion(opcion, seccion = "fichas") {
+            const descripcion = seccion === "fotos" ? "" : opcion.descripcion;
+            const textoBoton = seccion === "fotos" ? "Ver fotos" : "Ver ficha técnica";
+            const url = seccion === "fotos" ? FOTO_PLACEHOLDER : opcion.pdf || PDF_PLACEHOLDER;
 
-            return `
-                <article class="product-card">
-                    <h3 class="product-name">${opcion.nombre}</h3>
-                    <p class="product-description">${opcion.descripcion}</p>
-                    <hr class="divider">
-                    <a class="sheet-link" href="${pdf}" target="_blank" rel="noopener noreferrer">
-                        Ver ficha técnica
-                    </a>
-                </article>
-            `;
+            return crearTarjetaAccion(opcion.nombre, descripcion, textoBoton, url);
         }
+
+        menuButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                mostrarSeccion(button.dataset.section);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        });
 
         categoryList.addEventListener("click", (event) => {
             const button = event.target.closest("[data-category]");
             if (!button) return;
-            mostrarCategoria(button.dataset.category);
+            mostrarCategoria(button.dataset.category, seccionActual);
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
 
         catalogView.addEventListener("click", (event) => {
+            const irASeccion = event.target.closest("[data-go-section]");
+            if (irASeccion) {
+                mostrarSeccion(irASeccion.dataset.goSection);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                return;
+            }
+
             const volver = event.target.closest("[data-back-category]");
             if (volver) {
-                mostrarCategoria(volver.dataset.backCategory);
+                mostrarCategoria(volver.dataset.backCategory, seccionActual);
                 window.scrollTo({ top: 0, behavior: "smooth" });
                 return;
             }
@@ -703,28 +932,33 @@
             if (!producto) return;
 
             const categoriaActiva = document.querySelector(".category-button.active")?.dataset.category || "acoplados";
-            mostrarProducto(categoriaActiva, producto.dataset.product);
+            mostrarProducto(categoriaActiva, producto.dataset.product, seccionActual);
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
 
         document.addEventListener("keydown", (event) => {
             const numero = Number(event.key);
             if (numero >= 1 && numero <= categorias.length) {
-                mostrarCategoria(categorias[numero - 1].id);
+                const seccionCategorias = seccionActual === "fotos" ? "fotos" : "fichas";
+                mostrarCategoria(categorias[numero - 1].id, seccionCategorias);
             }
         });
 
         function iniciar() {
             crearBotonesCategoria();
-            const hashInicial = window.location.hash.replace("#", "");
-            const [categoriaInicial, productoInicial] = hashInicial.split("/");
+            const partes = window.location.hash.replace("#", "").split("/").filter(Boolean);
 
-            if (categoriaInicial && productoInicial) {
-                mostrarProducto(categoriaInicial, productoInicial);
+            if (!partes.length) {
+                mostrarSeccion("inicio");
                 return;
             }
 
-            mostrarCategoria(categoriaInicial || "acoplados");
+            if (categorias.some((categoria) => categoria.id === partes[0])) {
+                mostrarSeccion("fichas", partes[0], partes[1] || "");
+                return;
+            }
+
+            mostrarSeccion(partes[0], partes[1] || "acoplados", partes[2] || "");
         }
 
         iniciar();
