@@ -202,7 +202,7 @@
 
         .category-panel {
             position: sticky;
-            top: 0;
+            top: 56px;
             z-index: 20;
             width: min(1280px, calc(100% - 112px));
             margin: -1px auto 0;
@@ -626,6 +626,169 @@
             outline-offset: 3px;
         }
 
+        .scroll-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            height: 56px;
+            padding: 0 24px;
+            color: var(--blanco);
+            background: linear-gradient(135deg, #101213 0%, #191c1d 60%, #242728 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            transform: translateY(-100%);
+            transition: transform 240ms ease;
+        }
+
+        .scroll-bar.visible {
+            transform: translateY(0);
+        }
+
+        .scroll-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .scroll-bar-logo {
+            height: 26px;
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        .scroll-bar-crumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+            font-size: 0.82rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .scroll-bar-section {
+            color: var(--blanco);
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .scroll-bar-divider {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .scroll-bar-divider[hidden] {
+            display: none;
+        }
+
+        .scroll-bar-category {
+            color: var(--verde);
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .scroll-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .scroll-bar-user {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.74rem;
+            font-weight: 500;
+            max-width: 220px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .scroll-bar-logout {
+            min-height: 28px;
+            padding: 0 10px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: var(--radio);
+            color: rgba(255, 255, 255, 0.78);
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.66rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+        }
+
+        .scroll-bar-logout:hover {
+            color: var(--blanco);
+            border-color: var(--rojo);
+            background: rgba(218, 37, 29, 0.22);
+        }
+
+        .scroll-bar-logout:focus-visible {
+            outline: 3px solid rgba(218, 37, 29, 0.38);
+            outline-offset: 3px;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 25;
+            display: grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            border: 0;
+            border-radius: 50%;
+            color: var(--blanco);
+            background: linear-gradient(180deg, var(--verde), var(--verde-oscuro));
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(8px);
+            pointer-events: none;
+            transition: opacity 200ms ease, transform 200ms ease, filter 160ms ease, box-shadow 160ms ease;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            filter: brightness(1.05);
+            box-shadow: 0 10px 22px rgba(21, 153, 71, 0.32);
+        }
+
+        .back-to-top:focus-visible {
+            outline: 3px solid rgba(21, 153, 71, 0.45);
+            outline-offset: 3px;
+        }
+
+        .back-to-top svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         @media (max-width: 720px) {
             .user-bar {
                 margin-bottom: 12px;
@@ -643,11 +806,67 @@
                 padding: 0 9px;
                 min-height: 28px;
             }
+
+            .category-panel {
+                top: 50px;
+            }
+
+            .scroll-bar {
+                height: 50px;
+                padding: 0 14px;
+                gap: 10px;
+            }
+
+            .scroll-bar-logo {
+                height: 22px;
+            }
+
+            .scroll-bar-crumb {
+                font-size: 0.7rem;
+                gap: 6px;
+            }
+
+            .scroll-bar-user {
+                display: none;
+            }
+
+            .scroll-bar-logout {
+                font-size: 0.6rem;
+                min-height: 26px;
+                padding: 0 8px;
+            }
+
+            .back-to-top {
+                bottom: 18px;
+                right: 18px;
+                width: 42px;
+                height: 42px;
+            }
+
+            .back-to-top svg {
+                width: 20px;
+                height: 20px;
+            }
         }
     </style>
 </head>
 <body>
 <div id="contenido" style="display:none;">
+    <div class="scroll-bar" id="scrollBar" aria-hidden="true">
+        <div class="scroll-bar-left">
+            <img class="scroll-bar-logo" src="LAMBERT blanco sin fondo.png" alt="Lambert">
+            <div class="scroll-bar-crumb">
+                <span class="scroll-bar-section" id="scrollBarSection">Inicio</span>
+                <span class="scroll-bar-divider" id="scrollBarDivider" hidden>›</span>
+                <span class="scroll-bar-category" id="scrollBarCategory"></span>
+            </div>
+        </div>
+        <div class="scroll-bar-right">
+            <span class="scroll-bar-user" id="scrollBarUser"></span>
+            <button class="scroll-bar-logout" type="button" id="scrollBarLogout">Cerrar sesión</button>
+        </div>
+    </div>
+
     <header class="hero">
         <div class="hero-inner">
             <div class="user-bar">
@@ -680,6 +899,12 @@
     <main>
         <section class="view active" id="catalogView" aria-live="polite"></section>
     </main>
+
+    <button class="back-to-top" type="button" id="backToTop" aria-label="Volver arriba">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <polyline points="6 14 12 8 18 14"></polyline>
+        </svg>
+    </button>
 
     <script>
         const PDF_PLACEHOLDER = "https://example.com/ficha.pdf";
@@ -769,6 +994,13 @@
         const catalogView = document.querySelector("#catalogView");
         const heroTitle = document.querySelector("#heroTitle");
         const heroDescription = document.querySelector("#heroDescription");
+        const scrollBar = document.querySelector("#scrollBar");
+        const scrollBarSection = document.querySelector("#scrollBarSection");
+        const scrollBarDivider = document.querySelector("#scrollBarDivider");
+        const scrollBarCategory = document.querySelector("#scrollBarCategory");
+        const backToTop = document.querySelector("#backToTop");
+        const SCROLL_BAR_THRESHOLD = 100;
+        const BACK_TO_TOP_THRESHOLD = 300;
         let seccionActual = "inicio";
 
         const HERO_CONTENT = {
@@ -799,6 +1031,31 @@
             heroDescription.textContent = contenido.descripcion;
         }
 
+        function actualizarBreadcrumb(seccion, idCategoria) {
+            const seccionLabel = HERO_CONTENT[seccion]?.titulo || "";
+            scrollBarSection.textContent = seccionLabel;
+
+            let categoriaLabel = "";
+            if ((seccion === "fichas" || seccion === "fotos") && idCategoria) {
+                const cat = categorias.find((item) => item.id === idCategoria);
+                if (cat) categoriaLabel = cat.nombre;
+            }
+
+            scrollBarCategory.textContent = categoriaLabel;
+            scrollBarDivider.hidden = !categoriaLabel;
+        }
+
+        function actualizarBarraEstado() {
+            const y = window.scrollY;
+            scrollBar.classList.toggle("visible", y > SCROLL_BAR_THRESHOLD);
+            backToTop.classList.toggle("visible", y > BACK_TO_TOP_THRESHOLD);
+        }
+
+        window.addEventListener("scroll", actualizarBarraEstado, { passive: true });
+        backToTop.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
         function crearBotonesCategoria() {
             categoryList.innerHTML = categorias.map((categoria) => `
                 <button class="category-button" type="button" data-category="${categoria.id}" aria-pressed="false">
@@ -819,6 +1076,7 @@
             seccionActual = seccion;
             actualizarMenu(seccion);
             actualizarHero(seccion);
+            actualizarBreadcrumb(seccion, null);
             categoryPanel.hidden = !(seccion === "fichas" || seccion === "fotos");
 
             if (seccion === "inicio") {
@@ -886,6 +1144,7 @@
             categoryPanel.hidden = !(seccion === "fichas" || seccion === "fotos");
             const categoria = categorias.find((item) => item.id === idCategoria) || categorias[0];
             actualizarBotones(categoria.id);
+            actualizarBreadcrumb(seccion, categoria.id);
 
             const productosHtml = categoria.productos.length
                 ? categoria.productos.map((producto) => crearTarjetaProducto(producto, seccion)).join("")
@@ -959,6 +1218,8 @@
 
             seccionActual = seccion;
             actualizarMenu(seccion);
+            actualizarHero(seccion);
+            actualizarBreadcrumb(seccion, categoria.id);
             categoryPanel.hidden = false;
             actualizarBotones(categoria.id);
 
@@ -1099,6 +1360,7 @@
   }
 
   document.getElementById("logoutButton").addEventListener("click", logout);
+  document.getElementById("scrollBarLogout").addEventListener("click", logout);
 
   auth.onAuthStateChanged((user) => {
     if (!user) {
@@ -1107,7 +1369,9 @@
       return;
     }
 
-    document.getElementById("userEmail").textContent = user.email || "";
+    const email = user.email || "";
+    document.getElementById("userEmail").textContent = email;
+    document.getElementById("scrollBarUser").textContent = email;
     document.getElementById("contenido").style.display = "block";
     iniciarMonitorInactividad();
   });
