@@ -805,6 +805,10 @@
             display: none;
         }
 
+        .drawer-label {
+            display: none;
+        }
+
         .drawer-footer {
             display: none;
         }
@@ -874,12 +878,12 @@
                 flex-direction: column;
                 flex-wrap: nowrap;
                 align-items: stretch;
-                gap: 8px;
-                width: 80vw;
-                max-width: 320px;
+                gap: 10px;
+                width: 82vw;
+                max-width: 340px;
                 padding: 64px 20px 24px;
-                background: linear-gradient(135deg, #101213 0%, #1a1d1e 100%);
-                box-shadow: -10px 0 28px rgba(0, 0, 0, 0.4);
+                background: #0e1011;
+                box-shadow: -10px 0 28px rgba(0, 0, 0, 0.5);
                 transform: translateX(100%);
                 transition: transform 260ms ease;
                 overflow-y: auto;
@@ -889,17 +893,67 @@
                 transform: translateX(0);
             }
 
+            .drawer-label {
+                display: block;
+                margin: 0 0 4px;
+                color: var(--verde);
+                font-size: 0.72rem;
+                font-weight: 900;
+                font-style: italic;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+            }
+
             .site-menu .menu-button {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
                 width: 100%;
-                min-height: 46px;
-                padding: 12px 16px;
+                min-height: 56px;
+                padding: 16px 20px;
                 text-align: left;
-                font-size: 0.78rem;
-                background: rgba(255, 255, 255, 0.04);
+                font-size: 0.92rem;
+                color: var(--negro);
+                border: 0;
+                background: var(--blanco);
+                transition: background 180ms ease, color 180ms ease, transform 120ms ease;
+            }
+
+            .site-menu .menu-button::after {
+                content: "›";
+                color: var(--verde);
+                font-size: 1.6rem;
+                font-style: normal;
+                font-weight: 900;
+                line-height: 1;
+                transition: color 180ms ease, transform 180ms ease;
+            }
+
+            .site-menu .menu-button:hover {
+                background: #f0f0f0;
+            }
+
+            .site-menu .menu-button:active,
+            .site-menu .menu-button.tapped {
+                background: var(--verde);
+                color: var(--blanco);
+                transform: scale(0.97);
+            }
+
+            .site-menu .menu-button:active::after,
+            .site-menu .menu-button.tapped::after {
+                color: var(--blanco);
             }
 
             .site-menu .menu-button.active {
-                background: rgba(21, 153, 71, 0.32);
+                color: var(--blanco);
+                background: var(--verde);
+                box-shadow: 0 4px 18px rgba(21, 153, 71, 0.55);
+            }
+
+            .site-menu .menu-button.active::after {
+                color: var(--blanco);
             }
 
             .drawer-close {
@@ -1103,6 +1157,7 @@
             <div class="top-nav">
                 <nav class="site-menu" id="siteMenu" aria-label="Secciones principales">
                     <button class="drawer-close" type="button" id="drawerClose" aria-label="Cerrar menú">×</button>
+                    <p class="drawer-label">Menú</p>
                     <button class="menu-button active" type="button" data-section="inicio">Inicio</button>
                     <button class="menu-button" type="button" data-section="fichas">Fichas técnicas</button>
                     <button class="menu-button" type="button" data-section="fotos">Banco de fotos</button>
@@ -1511,8 +1566,17 @@
 
         menuButtons.forEach((button) => {
             button.addEventListener("click", () => {
+                console.log("[1] Menu click:", button.dataset.section);
                 toggleDrawer(false);
-                mostrarSeccion(button.dataset.section);
+                console.log("[2] Drawer cerrado");
+                try {
+                    mostrarSeccion(button.dataset.section);
+                    console.log("[3] mostrarSeccion ejecutado. seccionActual =", seccionActual);
+                    console.log("[4] Hero title actual:", heroTitle.textContent);
+                    console.log("[5] catalogView contiene:", catalogView.innerHTML.substring(0, 100));
+                } catch (e) {
+                    console.error("ERROR en mostrarSeccion:", e);
+                }
                 window.scrollTo({ top: 0, behavior: "auto" });
             });
         });
