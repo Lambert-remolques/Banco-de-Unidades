@@ -920,34 +920,17 @@
             }
 
             .site-menu .menu-button {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 12px;
+                display: block;
                 width: 100%;
-                min-height: 56px;
-                padding: 16px 20px;
-                text-align: left;
-                font-size: 0.92rem;
+                min-height: 60px;
+                padding: 18px 20px;
+                text-align: center;
+                font-size: 0.95rem;
                 color: var(--negro);
                 border: 0;
                 background: var(--blanco);
-                transition: background 180ms ease, color 180ms ease, transform 120ms ease;
-            }
-
-            .site-menu .menu-button::after {
-                content: "›";
-                color: var(--verde);
-                font-size: 1.6rem;
-                font-style: normal;
-                font-weight: 900;
-                line-height: 1;
-                pointer-events: none;
-                transition: color 180ms ease;
-            }
-
-            .site-menu .menu-button > * {
-                pointer-events: none;
+                touch-action: manipulation;
+                transition: background 160ms ease, color 160ms ease;
             }
 
             @media (hover: hover) {
@@ -956,14 +939,8 @@
                 }
             }
 
-            .site-menu .menu-button:active,
-            .site-menu .menu-button.tapped {
+            .site-menu .menu-button:active {
                 background: var(--verde);
-                color: var(--blanco);
-            }
-
-            .site-menu .menu-button:active::after,
-            .site-menu .menu-button.tapped::after {
                 color: var(--blanco);
             }
 
@@ -971,10 +948,6 @@
                 color: var(--blanco);
                 background: var(--verde);
                 box-shadow: 0 4px 18px rgba(21, 153, 71, 0.55);
-            }
-
-            .site-menu .menu-button.active::after {
-                color: var(--blanco);
             }
 
             .drawer-close {
@@ -1317,6 +1290,9 @@
         const siteMenu = document.querySelector("#siteMenu");
         const menuOverlay = document.querySelector("#menuOverlay");
         const drawerClose = document.querySelector("#drawerClose");
+
+        document.body.appendChild(menuOverlay);
+        document.body.appendChild(siteMenu);
         const SCROLL_BAR_THRESHOLD = 100;
         const BACK_TO_TOP_THRESHOLD = 300;
         let seccionActual = "inicio";
@@ -1585,14 +1561,30 @@
             return crearTarjetaAccion(opcion.nombre, descripcion, textoBoton, url);
         }
 
-        siteMenu.addEventListener("click", (event) => {
-            const btn = event.target.closest("[data-section]");
-            if (!btn) return;
-            event.preventDefault();
-            toggleDrawer(false);
-            mostrarSeccion(btn.dataset.section);
-            window.scrollTo({ top: 0, behavior: "auto" });
+        console.log("[DIAG] menuButtons cantidad =", menuButtons.length);
+        menuButtons.forEach((btn, i) => {
+            console.log(`[DIAG] btn ${i}: data-section="${btn.dataset.section}"`);
+
+            btn.addEventListener("mousedown", () => console.log(`%c[MOUSEDOWN ${btn.dataset.section}]`, "background:orange;color:black;padding:2px 6px"));
+            btn.addEventListener("touchstart", () => console.log(`%c[TOUCHSTART ${btn.dataset.section}]`, "background:purple;color:white;padding:2px 6px"));
+            btn.addEventListener("pointerdown", () => console.log(`%c[POINTERDOWN ${btn.dataset.section}]`, "background:cyan;color:black;padding:2px 6px"));
+
+            btn.addEventListener("click", (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                const seccion = btn.dataset.section;
+                console.log(`%c[CLICK ${seccion}] heroTitle ANTES = "${heroTitle.textContent}"`, "background:lime;color:black;padding:2px 6px;font-weight:bold");
+                toggleDrawer(false);
+                mostrarSeccion(seccion);
+                console.log(`%c[CLICK ${seccion}] heroTitle DESPUES = "${heroTitle.textContent}"`, "background:lime;color:black;padding:2px 6px;font-weight:bold");
+                console.log(`[CLICK ${seccion}] catalogView empieza =`, catalogView.innerHTML.substring(0, 80));
+                window.scrollTo({ top: 0, behavior: "auto" });
+            });
         });
+
+        document.addEventListener("click", (e) => {
+            console.log(`[GLOBAL CLICK] tag=${e.target.tagName} class="${e.target.className || ""}" data-section=${e.target.dataset?.section || "no"}`);
+        }, true);
 
         categoryList.addEventListener("click", (event) => {
             const button = event.target.closest("[data-category]");
