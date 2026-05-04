@@ -742,6 +742,10 @@
             outline-offset: 3px;
         }
 
+        .scroll-bar-menu-toggle {
+            display: none;
+        }
+
         .back-to-top {
             position: fixed;
             bottom: 28px;
@@ -789,26 +793,216 @@
             stroke-linejoin: round;
         }
 
+        .menu-toggle {
+            display: none;
+        }
+
+        .menu-overlay {
+            display: none;
+        }
+
+        .drawer-close {
+            display: none;
+        }
+
+        .drawer-footer {
+            display: none;
+        }
+
         @media (max-width: 720px) {
             .user-bar {
-                margin-bottom: 12px;
-                padding-bottom: 10px;
+                display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: stretch;
+                width: 30px;
+                height: 22px;
+                padding: 0;
+                margin: 0;
+                border: 0;
+                background: transparent;
+                cursor: pointer;
+            }
+
+            .menu-toggle span {
+                display: block;
+                height: 2px;
+                background: var(--blanco);
+                border-radius: 2px;
+                transform-origin: center;
+                transition: transform 220ms ease, opacity 200ms ease;
+            }
+
+            .menu-toggle[aria-expanded="true"] span:nth-child(1) {
+                transform: translateY(10px) rotate(45deg);
+            }
+
+            .menu-toggle[aria-expanded="true"] span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle[aria-expanded="true"] span:nth-child(3) {
+                transform: translateY(-10px) rotate(-45deg);
+            }
+
+            .menu-overlay {
+                display: block;
+                position: fixed;
+                inset: 0;
+                z-index: 35;
+                background: rgba(10, 11, 12, 0.88);
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 240ms ease;
+            }
+
+            .menu-overlay.open {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .site-menu {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 40;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: stretch;
+                gap: 8px;
+                width: 80vw;
+                max-width: 320px;
+                padding: 64px 20px 24px;
+                background: linear-gradient(135deg, #101213 0%, #1a1d1e 100%);
+                box-shadow: -10px 0 28px rgba(0, 0, 0, 0.4);
+                transform: translateX(100%);
+                transition: transform 260ms ease;
+                overflow-y: auto;
+            }
+
+            .site-menu.open {
+                transform: translateX(0);
+            }
+
+            .site-menu .menu-button {
+                width: 100%;
+                min-height: 46px;
+                padding: 12px 16px;
+                text-align: left;
+                font-size: 0.78rem;
+                background: rgba(255, 255, 255, 0.04);
+            }
+
+            .site-menu .menu-button.active {
+                background: rgba(21, 153, 71, 0.32);
+            }
+
+            .drawer-close {
+                display: grid;
+                place-items: center;
+                position: absolute;
+                top: 14px;
+                right: 14px;
+                width: 36px;
+                height: 36px;
+                padding: 0;
+                border: 0;
+                background: transparent;
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 1.6rem;
+                line-height: 1;
+                cursor: pointer;
+                transition: color 160ms ease;
+            }
+
+            .drawer-close:hover {
+                color: var(--blanco);
+            }
+
+            .drawer-footer {
+                display: flex;
+                flex-direction: column;
                 gap: 10px;
+                margin-top: auto;
+                padding-top: 22px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
             }
 
-            .user-email {
-                font-size: 0.7rem;
-                max-width: 50vw;
+            .drawer-user-email {
+                margin: 0;
+                color: rgba(255, 255, 255, 0.72);
+                font-size: 0.74rem;
+                font-weight: 500;
+                word-break: break-all;
             }
 
-            .logout-button {
-                font-size: 0.62rem;
-                padding: 0 9px;
-                min-height: 28px;
+            .drawer-logout {
+                min-height: 38px;
+                padding: 0 14px;
+                border: 1px solid rgba(255, 255, 255, 0.28);
+                border-radius: var(--radio);
+                color: rgba(255, 255, 255, 0.78);
+                background: rgba(255, 255, 255, 0.04);
+                font-size: 0.72rem;
+                font-weight: 900;
+                font-style: italic;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                cursor: pointer;
+                transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+            }
+
+            .drawer-logout:hover {
+                color: var(--blanco);
+                border-color: var(--rojo);
+                background: rgba(218, 37, 29, 0.22);
+            }
+
+            body.menu-open {
+                overflow: hidden;
+            }
+
+            .hero-inner {
+                padding: 18px 0 32px;
+            }
+
+            .hero-title {
+                font-size: clamp(1.5rem, 8.5vw, 2.6rem);
+            }
+
+            .hero-kicker {
+                font-size: 0.78rem;
+            }
+
+            .hero-description {
+                font-size: 0.85rem;
+            }
+
+            .section-title {
+                font-size: clamp(1.5rem, 6vw, 2.2rem);
+            }
+
+            .construction-copy {
+                font-size: 0.88rem;
+            }
+
+            .product-name {
+                font-size: 1rem;
+            }
+
+            .product-description {
+                font-size: 0.82rem;
             }
 
             .category-panel {
-                top: 50px;
+                position: static;
+                top: auto;
+                width: min(100% - 24px, 1280px);
             }
 
             .scroll-bar {
@@ -831,9 +1025,39 @@
             }
 
             .scroll-bar-logout {
-                font-size: 0.6rem;
-                min-height: 26px;
-                padding: 0 8px;
+                display: none;
+            }
+
+            .scroll-bar-menu-toggle {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 26px;
+                height: 20px;
+                padding: 0;
+                border: 0;
+                background: transparent;
+                cursor: pointer;
+            }
+
+            .scroll-bar-menu-toggle span {
+                display: block;
+                height: 2px;
+                background: var(--blanco);
+                border-radius: 2px;
+                transition: transform 220ms ease, opacity 200ms ease;
+            }
+
+            .scroll-bar-menu-toggle[aria-expanded="true"] span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+
+            .scroll-bar-menu-toggle[aria-expanded="true"] span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .scroll-bar-menu-toggle[aria-expanded="true"] span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
             }
 
             .back-to-top {
@@ -864,6 +1088,9 @@
         <div class="scroll-bar-right">
             <span class="scroll-bar-user" id="scrollBarUser"></span>
             <button class="scroll-bar-logout" type="button" id="scrollBarLogout">Cerrar sesión</button>
+            <button class="scroll-bar-menu-toggle" type="button" id="scrollBarMenuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="siteMenu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </div>
 
@@ -874,12 +1101,20 @@
                 <button class="logout-button" type="button" id="logoutButton">Cerrar sesión</button>
             </div>
             <div class="top-nav">
-                <nav class="site-menu" aria-label="Secciones principales">
+                <nav class="site-menu" id="siteMenu" aria-label="Secciones principales">
+                    <button class="drawer-close" type="button" id="drawerClose" aria-label="Cerrar menú">×</button>
                     <button class="menu-button active" type="button" data-section="inicio">Inicio</button>
                     <button class="menu-button" type="button" data-section="fichas">Fichas técnicas</button>
                     <button class="menu-button" type="button" data-section="fotos">Banco de fotos</button>
                     <button class="menu-button" type="button" data-section="adicionales">Adicionales</button>
+                    <div class="drawer-footer">
+                        <p class="drawer-user-email" id="drawerUserEmail" aria-live="polite"></p>
+                        <button class="drawer-logout" type="button" id="drawerLogout">Cerrar sesión</button>
+                    </div>
                 </nav>
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="siteMenu">
+                    <span></span><span></span><span></span>
+                </button>
                 <img class="logo" src="LAMBERT blanco sin fondo.png" alt="Lambert">
             </div>
 
@@ -905,6 +1140,8 @@
             <polyline points="6 14 12 8 18 14"></polyline>
         </svg>
     </button>
+
+    <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
 
     <script>
         const PDF_PLACEHOLDER = "https://example.com/ficha.pdf";
@@ -999,9 +1236,33 @@
         const scrollBarDivider = document.querySelector("#scrollBarDivider");
         const scrollBarCategory = document.querySelector("#scrollBarCategory");
         const backToTop = document.querySelector("#backToTop");
+        const menuToggle = document.querySelector("#menuToggle");
+        const scrollBarMenuToggle = document.querySelector("#scrollBarMenuToggle");
+        const siteMenu = document.querySelector("#siteMenu");
+        const menuOverlay = document.querySelector("#menuOverlay");
+        const drawerClose = document.querySelector("#drawerClose");
         const SCROLL_BAR_THRESHOLD = 100;
         const BACK_TO_TOP_THRESHOLD = 300;
         let seccionActual = "inicio";
+
+        function toggleDrawer(forceOpen) {
+            const abrir = typeof forceOpen === "boolean" ? forceOpen : !siteMenu.classList.contains("open");
+            siteMenu.classList.toggle("open", abrir);
+            menuOverlay.classList.toggle("open", abrir);
+            menuToggle.setAttribute("aria-expanded", String(abrir));
+            scrollBarMenuToggle.setAttribute("aria-expanded", String(abrir));
+            document.body.classList.toggle("menu-open", abrir);
+        }
+
+        menuToggle.addEventListener("click", () => toggleDrawer());
+        scrollBarMenuToggle.addEventListener("click", () => toggleDrawer());
+        menuOverlay.addEventListener("click", () => toggleDrawer(false));
+        drawerClose.addEventListener("click", () => toggleDrawer(false));
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && siteMenu.classList.contains("open")) {
+                toggleDrawer(false);
+            }
+        });
 
         const HERO_CONTENT = {
             inicio: { titulo: "Banco de unidades", descripcion: "Acceso rápido a la información de cada unidad" },
@@ -1250,8 +1511,9 @@
 
         menuButtons.forEach((button) => {
             button.addEventListener("click", () => {
+                toggleDrawer(false);
                 mostrarSeccion(button.dataset.section);
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                window.scrollTo({ top: 0, behavior: "auto" });
             });
         });
 
@@ -1361,6 +1623,7 @@
 
   document.getElementById("logoutButton").addEventListener("click", logout);
   document.getElementById("scrollBarLogout").addEventListener("click", logout);
+  document.getElementById("drawerLogout").addEventListener("click", logout);
 
   auth.onAuthStateChanged((user) => {
     if (!user) {
@@ -1372,6 +1635,7 @@
     const email = user.email || "";
     document.getElementById("userEmail").textContent = email;
     document.getElementById("scrollBarUser").textContent = email;
+    document.getElementById("drawerUserEmail").textContent = email;
     document.getElementById("contenido").style.display = "block";
     iniciarMonitorInactividad();
   });
