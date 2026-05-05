@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banco de Unidades | Lambert</title>
+    <title>Unidades | Lambert</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -2305,7 +2305,7 @@
                     <p class="drawer-label">Menú</p>
                     <button class="menu-button active" type="button" data-section="inicio">Inicio</button>
                     <button class="menu-button" type="button" data-section="fichas">Fichas técnicas</button>
-                    <button class="menu-button" type="button" data-section="fotos">Banco de fotos</button>
+                    <button class="menu-button" type="button" data-section="fotos">Fotos</button>
                     <button class="menu-button" type="button" data-section="adicionales">Adicionales</button>
                     <div class="drawer-footer">
                         <p class="drawer-user-email" id="drawerUserEmail" aria-live="polite"></p>
@@ -2330,7 +2330,7 @@
 
             <div class="hero-content">
                 <p class="hero-kicker">Catálogo técnico</p>
-                <h1 class="hero-title" id="heroTitle">Banco de unidades</h1>
+                <h1 class="hero-title" id="heroTitle">Unidades</h1>
                 <div class="red-rule" aria-hidden="true"></div>
                 <p class="hero-description" id="heroDescription">Acceso rápido a la información de cada unidad</p>
             </div>
@@ -2416,7 +2416,7 @@
     </div>
 
     <script>
-        const PDF_BASE = "https://lambert-remolques.github.io/Banco-de-Unidades/fichas";
+        const PDF_BASE = "https://lambert-remolques.github.io/Unidades/fichas";
         const PDF_PLACEHOLDER = "https://example.com/ficha.pdf";
         const FOTO_PLACEHOLDER = "https://example.com/fotos";
         const CLOUDINARY_CLOUD = "lambert-remolques";
@@ -2717,9 +2717,9 @@
         });
 
         const HERO_CONTENT = {
-            inicio: { titulo: "Banco de unidades", descripcion: "Acceso rápido a la información de cada unidad" },
+            inicio: { titulo: "Unidades", descripcion: "Acceso rápido a la información de cada unidad" },
             fichas: { titulo: "Fichas técnicas", descripcion: "Acceso rápido a las fichas técnicas de unidades" },
-            fotos: { titulo: "Banco de fotos", descripcion: "Acceso rápido a las fotos de cada unidad" },
+            fotos: { titulo: "Fotos", descripcion: "Acceso rápido a las fotos de cada unidad" },
             adicionales: { titulo: "Adicionales", descripcion: "Acceso rápido a los adicionales" }
         };
 
@@ -2818,10 +2818,10 @@
                         <h2 class="section-title">Inicio</h2>
                     </div>
                 </div>
-                <p class="construction-copy">Banco interno para ordenar material técnico y visual de unidades. Elegí una sección para consultar fichas, revisar fotos o acceder a los adicionales de cada unidad.</p>
+                <p class="construction-copy">Catálogo interno con fichas técnicas, fotos y adicionales de cada unidad. Elegí una sección para empezar.</p>
                 <div class="home-grid">
                     ${crearTarjetaInicio("Fichas técnicas", "Consulta de fichas PDF por categoría, unidad y configuración.", "fichas")}
-                    ${crearTarjetaInicio("Banco de fotos", "Galería de fotos de cada unidad por categoría y configuración.", "fotos")}
+                    ${crearTarjetaInicio("Fotos", "Galería de fotos de cada unidad por categoría y configuración.", "fotos")}
                     ${crearTarjetaInicio("Adicionales", "Sección en construcción para próximos recursos complementarios.", "adicionales")}
                 </div>
             `;
