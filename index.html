@@ -1732,26 +1732,33 @@
     </div>
 
     <script>
+        const PDF_BASE = "https://lambert-remolques.github.io/Banco-de-Unidades/fichas";
         const PDF_PLACEHOLDER = "https://example.com/ficha.pdf";
         const FOTO_PLACEHOLDER = "https://example.com/fotos";
 
-        function opcionesEjes() {
+        function pdfFichaUrl(categoria, productoNombre, ejeSlug) {
+            const productoSlug = crearSlug(productoNombre);
+            const sufijo = ejeSlug ? `-${ejeSlug}` : "";
+            return `${PDF_BASE}/${categoria}/${productoSlug}${sufijo}.pdf`;
+        }
+
+        function opcionesEjes(productoNombre) {
             return [
-                { nombre: "2 ejes", descripcion: "Ficha técnica para disposición de dos ejes.", pdf: PDF_PLACEHOLDER },
-                { nombre: "3 ejes", descripcion: "Ficha técnica para disposición de tres ejes.", pdf: PDF_PLACEHOLDER },
-                { nombre: "4 ejes", descripcion: "Ficha técnica para disposición de cuatro ejes.", pdf: PDF_PLACEHOLDER }
+                { nombre: "2 ejes", descripcion: "Ficha técnica para disposición de dos ejes.", pdf: pdfFichaUrl("acoplados", productoNombre, "2-ejes") },
+                { nombre: "3 ejes", descripcion: "Ficha técnica para disposición de tres ejes.", pdf: pdfFichaUrl("acoplados", productoNombre, "3-ejes") },
+                { nombre: "4 ejes", descripcion: "Ficha técnica para disposición de cuatro ejes.", pdf: pdfFichaUrl("acoplados", productoNombre, "4-ejes") }
             ];
         }
 
-        function opcionesSemirremolque() {
+        function opcionesSemirremolque(productoNombre) {
             return [
-                { nombre: "1 eje", descripcion: "Ficha técnica para configuración de un eje.", pdf: PDF_PLACEHOLDER },
-                { nombre: "2 ejes", descripcion: "Ficha técnica para configuración de dos ejes.", pdf: PDF_PLACEHOLDER },
-                { nombre: "3 ejes", descripcion: "Ficha técnica para configuración de tres ejes.", pdf: PDF_PLACEHOLDER },
-                { nombre: "1+1 eje", descripcion: "Ficha técnica para configuración 1+1 eje.", pdf: PDF_PLACEHOLDER },
-                { nombre: "1+2 eje", descripcion: "Ficha técnica para configuración 1+2 eje.", pdf: PDF_PLACEHOLDER },
-                { nombre: "1+3 eje", descripcion: "Ficha técnica para configuración 1+3 eje.", pdf: PDF_PLACEHOLDER },
-                { nombre: "1+1+1 eje", descripcion: "Ficha técnica para configuración 1+1+1 eje.", pdf: PDF_PLACEHOLDER }
+                { nombre: "1 eje", descripcion: "Ficha técnica para configuración de un eje.", pdf: pdfFichaUrl("semirremolques", productoNombre, "1-eje") },
+                { nombre: "2 ejes", descripcion: "Ficha técnica para configuración de dos ejes.", pdf: pdfFichaUrl("semirremolques", productoNombre, "2-ejes") },
+                { nombre: "3 ejes", descripcion: "Ficha técnica para configuración de tres ejes.", pdf: pdfFichaUrl("semirremolques", productoNombre, "3-ejes") },
+                { nombre: "1+1 eje", descripcion: "Ficha técnica para configuración 1+1 eje.", pdf: pdfFichaUrl("semirremolques", productoNombre, "1-1-eje") },
+                { nombre: "1+2 eje", descripcion: "Ficha técnica para configuración 1+2 eje.", pdf: pdfFichaUrl("semirremolques", productoNombre, "1-2-eje") },
+                { nombre: "1+3 eje", descripcion: "Ficha técnica para configuración 1+3 eje.", pdf: pdfFichaUrl("semirremolques", productoNombre, "1-3-eje") },
+                { nombre: "1+1+1 eje", descripcion: "Ficha técnica para configuración 1+1+1 eje.", pdf: pdfFichaUrl("semirremolques", productoNombre, "1-1-1-eje") }
             ];
         }
 
@@ -1760,66 +1767,66 @@
                 id: "acoplados",
                 nombre: "Acoplados",
                 productos: [
-                    { nombre: "Baranda volcable", descripcion: "Unidad con laterales abatibles que facilitan la carga y descarga, especialmente de material suelto o paletizado.", opciones: opcionesEjes() },
-                    { nombre: "Curtain sider", descripcion: "Unidad con laterales de lona corrediza y techo fijo, que permite el acceso lateral total.", opciones: opcionesEjes() },
-                    { nombre: "Playo", descripcion: "Unidad de piso plano sin estructura lateral cerrada, ideal para cargas voluminosas o piezas pesadas.", opciones: opcionesEjes() },
-                    { nombre: "Paquetero", descripcion: "Unidad con piso y laterales preparados para cargas agrupadas con cajas o paquetes.", opciones: opcionesEjes() },
-                    { nombre: "Forestal", descripcion: "Unidad con estructura reforzada y anclajes para transporte de madera y productos forestales.", opciones: opcionesEjes() },
-                    { nombre: "Volcador bilateral", descripcion: "Unidad que puede volcar carga hacia ambos lados del equipo.", opciones: opcionesEjes() },
-                    { nombre: "Todo puertas", descripcion: "Unidad con puertas en todos los laterales, facilitando la carga y descarga desde cualquier punto.", opciones: opcionesEjes() },
-                    { nombre: "Isotérmico", descripcion: "Unidad cerrada con aislamiento térmico para mantener temperaturas controladas.", opciones: opcionesEjes() },
-                    { nombre: "Tolva descarga ventral", descripcion: "Unidad equipada con sistema de descarga por tolva en la parte inferior.", opciones: opcionesEjes() }
+                    { nombre: "Baranda volcable", descripcion: "Unidad con laterales abatibles que facilitan la carga y descarga, especialmente de material suelto o paletizado.", opciones: opcionesEjes("Baranda volcable") },
+                    { nombre: "Curtain sider", descripcion: "Unidad con laterales de lona corrediza y techo fijo, que permite el acceso lateral total.", opciones: opcionesEjes("Curtain sider") },
+                    { nombre: "Playo", descripcion: "Unidad de piso plano sin estructura lateral cerrada, ideal para cargas voluminosas o piezas pesadas.", opciones: opcionesEjes("Playo") },
+                    { nombre: "Paquetero", descripcion: "Unidad con piso y laterales preparados para cargas agrupadas con cajas o paquetes.", opciones: opcionesEjes("Paquetero") },
+                    { nombre: "Forestal", descripcion: "Unidad con estructura reforzada y anclajes para transporte de madera y productos forestales.", opciones: opcionesEjes("Forestal") },
+                    { nombre: "Volcador bilateral", descripcion: "Unidad que puede volcar carga hacia ambos lados del equipo.", opciones: opcionesEjes("Volcador bilateral") },
+                    { nombre: "Todo puertas", descripcion: "Unidad con puertas en todos los laterales, facilitando la carga y descarga desde cualquier punto.", opciones: opcionesEjes("Todo puertas") },
+                    { nombre: "Isotérmico", descripcion: "Unidad cerrada con aislamiento térmico para mantener temperaturas controladas.", opciones: opcionesEjes("Isotérmico") },
+                    { nombre: "Tolva descarga ventral", descripcion: "Unidad equipada con sistema de descarga por tolva en la parte inferior.", opciones: opcionesEjes("Tolva descarga ventral") }
                 ]
             },
             {
                 id: "semirremolques",
                 nombre: "Semirremolques",
                 productos: [
-                    { nombre: "Playo con frente", descripcion: "El playo con frente es una plataforma abierta que incorpora un frente estructural fijo, que actúa como elemento de contención y protección.", opciones: opcionesSemirremolque() },
-                    { nombre: "Curtain sider", descripcion: "Unidad con laterales de lona corrediza y techo fijo, que permite el acceso lateral total.", opciones: opcionesSemirremolque() },
-                    { nombre: "Baranda volcable", descripcion: "Unidad con laterales abatibles que facilitan la carga y descarga, especialmente de material suelto o paletizado.", opciones: opcionesSemirremolque() },
-                    { nombre: "Forestal", descripcion: "Unidad con estructura reforzada y anclajes para transporte de madera y productos forestales.", opciones: opcionesSemirremolque() },
-                    { nombre: "Isotérmico", descripcion: "Unidad cerrada con aislamiento térmico para mantener temperaturas controladas.", opciones: opcionesSemirremolque() },
-                    { nombre: "Tolva descarga ventral", descripcion: "Unidad equipada con sistema de descarga por tolva en la parte inferior.", opciones: opcionesSemirremolque() },
-                    { nombre: "Portacontenedor extensible", descripcion: "Unidad cuya estructura de chasis puede alargarse o acortarse para adaptarse a diferentes longitudes de contenedores o combinaciones de los mismos.", opciones: opcionesSemirremolque() },
-                    { nombre: "Jaula simple", descripcion: "Unidad diseñada para el transporte de ganado, cuya estructura permite una correcta ventilación, contención y bienestar animal durante el traslado.", opciones: opcionesSemirremolque() },
-                    { nombre: "Jaula doble piso", descripcion: "Unidad con estructura de jaula metálica de doble piso para carga ordenada y estable.", opciones: opcionesSemirremolque() },
+                    { nombre: "Playo con frente", descripcion: "El playo con frente es una plataforma abierta que incorpora un frente estructural fijo, que actúa como elemento de contención y protección.", opciones: opcionesSemirremolque("Playo con frente") },
+                    { nombre: "Curtain sider", descripcion: "Unidad con laterales de lona corrediza y techo fijo, que permite el acceso lateral total.", opciones: opcionesSemirremolque("Curtain sider") },
+                    { nombre: "Baranda volcable", descripcion: "Unidad con laterales abatibles que facilitan la carga y descarga, especialmente de material suelto o paletizado.", opciones: opcionesSemirremolque("Baranda volcable") },
+                    { nombre: "Forestal", descripcion: "Unidad con estructura reforzada y anclajes para transporte de madera y productos forestales.", opciones: opcionesSemirremolque("Forestal") },
+                    { nombre: "Isotérmico", descripcion: "Unidad cerrada con aislamiento térmico para mantener temperaturas controladas.", opciones: opcionesSemirremolque("Isotérmico") },
+                    { nombre: "Tolva descarga ventral", descripcion: "Unidad equipada con sistema de descarga por tolva en la parte inferior.", opciones: opcionesSemirremolque("Tolva descarga ventral") },
+                    { nombre: "Portacontenedor extensible", descripcion: "Unidad cuya estructura de chasis puede alargarse o acortarse para adaptarse a diferentes longitudes de contenedores o combinaciones de los mismos.", opciones: opcionesSemirremolque("Portacontenedor extensible") },
+                    { nombre: "Jaula simple", descripcion: "Unidad diseñada para el transporte de ganado, cuya estructura permite una correcta ventilación, contención y bienestar animal durante el traslado.", opciones: opcionesSemirremolque("Jaula simple") },
+                    { nombre: "Jaula doble piso", descripcion: "Unidad con estructura de jaula metálica de doble piso para carga ordenada y estable.", opciones: opcionesSemirremolque("Jaula doble piso") },
                     { nombre: "Batea", descripcion: "Unidad de transporte de plataforma abierta, sin laterales ni cerramientos.", opciones: [
-                        { nombre: "1 eje", descripcion: "Ficha técnica para configuración de un eje.", pdf: PDF_PLACEHOLDER },
-                        { nombre: "2 ejes", descripcion: "Ficha técnica para configuración de dos ejes.", pdf: PDF_PLACEHOLDER },
-                        { nombre: "3 ejes", descripcion: "Ficha técnica para configuración de tres ejes.", pdf: PDF_PLACEHOLDER },
-                        { nombre: "1+1 eje", descripcion: "Ficha técnica para configuración 1+1 eje.", pdf: PDF_PLACEHOLDER },
+                        { nombre: "1 eje", descripcion: "Ficha técnica para configuración de un eje.", pdf: pdfFichaUrl("semirremolques", "Batea", "1-eje") },
+                        { nombre: "2 ejes", descripcion: "Ficha técnica para configuración de dos ejes.", pdf: pdfFichaUrl("semirremolques", "Batea", "2-ejes") },
+                        { nombre: "3 ejes", descripcion: "Ficha técnica para configuración de tres ejes.", pdf: pdfFichaUrl("semirremolques", "Batea", "3-ejes") },
+                        { nombre: "1+1 eje", descripcion: "Ficha técnica para configuración 1+1 eje.", pdf: pdfFichaUrl("semirremolques", "Batea", "1-1-eje") },
                         { nombre: "1+2 eje", descripcion: "Disponible en dos capacidades. Elegí la que necesitás.", variantes: [
-                            { nombre: "25 m³", descripcion: "Modelo estándar.", pdf: "https://lambert-remolques.github.io/Banco-de-Unidades/fichas/semirremolques/batea-1-2-eje-25-m3.pdf" },
-                            { nombre: "27 m³", descripcion: "Modelo de mayor capacidad.", pdf: "https://lambert-remolques.github.io/Banco-de-Unidades/fichas/semirremolques/batea-1-2-eje-27-m3.pdf" }
+                            { nombre: "25 m³", descripcion: "Modelo estándar.", pdf: pdfFichaUrl("semirremolques", "Batea", "1-2-eje-25-m3") },
+                            { nombre: "27 m³", descripcion: "Modelo de mayor capacidad.", pdf: pdfFichaUrl("semirremolques", "Batea", "1-2-eje-27-m3") }
                         ] },
-                        { nombre: "1+3 eje", descripcion: "Ficha técnica para configuración 1+3 eje.", pdf: PDF_PLACEHOLDER },
-                        { nombre: "1+1+1 eje", descripcion: "Ficha técnica para configuración 1+1+1 eje.", pdf: PDF_PLACEHOLDER }
+                        { nombre: "1+3 eje", descripcion: "Ficha técnica para configuración 1+3 eje.", pdf: pdfFichaUrl("semirremolques", "Batea", "1-3-eje") },
+                        { nombre: "1+1+1 eje", descripcion: "Ficha técnica para configuración 1+1+1 eje.", pdf: pdfFichaUrl("semirremolques", "Batea", "1-1-1-eje") }
                     ] },
-                    { nombre: "Bivuelco bicaja", descripcion: "Unidad diseñada para descarga de materiales sueltos mediante vuelco lateral hacia ambos lados, compuesta por dos cajas independientes montadas sobre una misma estructura.", opciones: opcionesSemirremolque() }
+                    { nombre: "Bivuelco bicaja", descripcion: "Unidad diseñada para descarga de materiales sueltos mediante vuelco lateral hacia ambos lados, compuesta por dos cajas independientes montadas sobre una misma estructura.", opciones: opcionesSemirremolque("Bivuelco bicaja") }
                 ]
             },
             {
                 id: "carrocerias",
                 nombre: "Carrocerías",
                 productos: [
-                    { nombre: "Curtain sider", descripcion: "Unidad con laterales de lona corrediza y techo fijo, que permite el acceso lateral total.", fichaDirecta: true },
-                    { nombre: "Todo puertas", descripcion: "Unidad con puertas en todos los laterales, facilitando la carga y descarga desde cualquier punto.", fichaDirecta: true },
-                    { nombre: "Volcadora", descripcion: "Unidad diseñada para la descarga de materiales sueltos mediante un sistema de vuelco, generalmente hacia atrás.", fichaDirecta: true },
-                    { nombre: "Isotérmica", descripcion: "Unidad cerrada con aislamiento térmico para mantener temperaturas controladas.", fichaDirecta: true },
-                    { nombre: "Bivuelco", descripcion: "Diseñada para descarga de materiales sueltos mediante vuelco lateral hacia ambos lados del vehículo. Este tipo de carrocería permite descargar la carga a izquierda o derecha.", fichaDirecta: true },
-                    { nombre: "Paquetera", descripcion: "Unidad con piso y laterales preparados para cargas agrupadas con cajas o paquetes.", fichaDirecta: true },
-                    { nombre: "Curtain sider barandas volcables", descripcion: "Unidad que combina barandas metálicas volcables en la parte inferior con laterales superiores de lona corrediza tipo curtain sider.", fichaDirecta: true },
-                    { nombre: "Pollera", descripcion: "Diseñada específicamente para el transporte de aves vivas, principalmente pollos, en condiciones que aseguren ventilación, contención y bienestar animal durante el traslado.", fichaDirecta: true }
+                    { nombre: "Curtain sider", descripcion: "Unidad con laterales de lona corrediza y techo fijo, que permite el acceso lateral total.", fichaDirecta: true, pdf: pdfFichaUrl("carrocerias", "Curtain sider") },
+                    { nombre: "Todo puertas", descripcion: "Unidad con puertas en todos los laterales, facilitando la carga y descarga desde cualquier punto.", fichaDirecta: true, pdf: pdfFichaUrl("carrocerias", "Todo puertas") },
+                    { nombre: "Volcadora", descripcion: "Unidad diseñada para la descarga de materiales sueltos mediante un sistema de vuelco, generalmente hacia atrás.", fichaDirecta: true, pdf: pdfFichaUrl("carrocerias", "Volcadora") },
+                    { nombre: "Isotérmica", descripcion: "Unidad cerrada con aislamiento térmico para mantener temperaturas controladas.", fichaDirecta: true, pdf: pdfFichaUrl("carrocerias", "Isotérmica") },
+                    { nombre: "Bivuelco", descripcion: "Diseñada para descarga de materiales sueltos mediante vuelco lateral hacia ambos lados del vehículo. Este tipo de carrocería permite descargar la carga a izquierda o derecha.", fichaDirecta: true, pdf: pdfFichaUrl("carrocerias", "Bivuelco") },
+                    { nombre: "Paquetera", descripcion: "Unidad con piso y laterales preparados para cargas agrupadas con cajas o paquetes.", fichaDirecta: true, pdf: pdfFichaUrl("carrocerias", "Paquetera") },
+                    { nombre: "Curtain sider barandas volcables", descripcion: "Unidad que combina barandas metálicas volcables en la parte inferior con laterales superiores de lona corrediza tipo curtain sider.", fichaDirecta: true, pdf: pdfFichaUrl("carrocerias", "Curtain sider barandas volcables") },
+                    { nombre: "Pollera", descripcion: "Diseñada específicamente para el transporte de aves vivas, principalmente pollos, en condiciones que aseguren ventilación, contención y bienestar animal durante el traslado.", fichaDirecta: true, pdf: pdfFichaUrl("carrocerias", "Pollera") }
                 ]
             },
             {
                 id: "bitrenes",
                 nombre: "Bitrenes",
                 productos: [
-                    { nombre: "Barandas volcables", descripcion: "Unidad con laterales abatibles que facilitan la carga y descarga, especialmente de material suelto o paletizado.", fichaDirecta: true },
-                    { nombre: "Curtain sider", descripcion: "Unidad con laterales de lona corrediza y techo fijo, que permite el acceso lateral total.", fichaDirecta: true },
-                    { nombre: "Isotérmico", descripcion: "Unidad cerrada con aislamiento térmico para mantener temperaturas controladas.", fichaDirecta: true }
+                    { nombre: "Barandas volcables", descripcion: "Unidad con laterales abatibles que facilitan la carga y descarga, especialmente de material suelto o paletizado.", fichaDirecta: true, pdf: pdfFichaUrl("bitrenes", "Barandas volcables") },
+                    { nombre: "Curtain sider", descripcion: "Unidad con laterales de lona corrediza y techo fijo, que permite el acceso lateral total.", fichaDirecta: true, pdf: pdfFichaUrl("bitrenes", "Curtain sider") },
+                    { nombre: "Isotérmico", descripcion: "Unidad cerrada con aislamiento térmico para mantener temperaturas controladas.", fichaDirecta: true, pdf: pdfFichaUrl("bitrenes", "Isotérmico") }
                 ]
             }
         ];
