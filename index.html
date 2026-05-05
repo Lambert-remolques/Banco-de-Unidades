@@ -1089,6 +1089,380 @@
             overflow: hidden;
         }
 
+        .adicional-search {
+            position: relative;
+            max-width: 440px;
+            margin: 0 0 18px;
+        }
+
+        .adicional-search svg {
+            position: absolute;
+            top: 50%;
+            left: 14px;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            stroke: rgba(38, 38, 38, 0.45);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            pointer-events: none;
+        }
+
+        #adicionalSearchInput {
+            width: 100%;
+            height: 42px;
+            padding: 0 14px 0 42px;
+            border: 1px solid rgba(38, 38, 38, 0.18);
+            border-radius: var(--radio);
+            color: var(--negro);
+            background: var(--blanco);
+            font-family: var(--fuente);
+            font-size: 0.92rem;
+            transition: border-color 160ms ease, box-shadow 160ms ease;
+        }
+
+        #adicionalSearchInput:focus {
+            outline: none;
+            border-color: var(--verde);
+            box-shadow: 0 0 0 3px rgba(21, 153, 71, 0.18);
+        }
+
+        .adicional-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+
+        .adicional-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 32px;
+            padding: 0 14px;
+            border: 1px solid rgba(38, 38, 38, 0.18);
+            border-radius: 999px;
+            color: var(--gris-texto);
+            background: var(--blanco);
+            font-family: var(--fuente);
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+        }
+
+        .adicional-chip:hover {
+            border-color: var(--verde);
+            color: var(--negro);
+        }
+
+        .adicional-chip.active {
+            background: var(--verde);
+            border-color: var(--verde-oscuro);
+            color: var(--blanco);
+        }
+
+        .chip-count {
+            display: inline-grid;
+            place-items: center;
+            min-width: 22px;
+            height: 18px;
+            padding: 0 6px;
+            border-radius: 9px;
+            background: rgba(0, 0, 0, 0.08);
+            color: inherit;
+            font-size: 0.66rem;
+            font-weight: 900;
+        }
+
+        .adicional-chip.active .chip-count {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .adicional-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 18px;
+        }
+
+        .adicional-card {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            border: 0;
+            border-radius: var(--radio);
+            background: var(--blanco);
+            box-shadow: var(--sombra-card);
+            overflow: hidden;
+            cursor: pointer;
+            text-align: left;
+            font-family: var(--fuente);
+            transition: transform 160ms ease, box-shadow 160ms ease;
+        }
+
+        .adicional-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 26px rgba(38, 38, 38, 0.18);
+        }
+
+        .adicional-foto {
+            position: relative;
+            aspect-ratio: 4 / 3;
+            background: #ededed;
+            overflow: hidden;
+            border-bottom: 3px solid var(--verde);
+        }
+
+        .adicional-foto img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .adicional-foto-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background:
+                repeating-linear-gradient(135deg, transparent 0 14px, rgba(38, 38, 38, 0.03) 14px 15px),
+                #f3f3f3;
+            color: rgba(38, 38, 38, 0.45);
+        }
+
+        .adicional-foto-placeholder svg {
+            width: 38px;
+            height: 38px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .adicional-foto-placeholder span {
+            font-size: 0.72rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .adicional-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 14px 18px 16px;
+        }
+
+        .adicional-nombre {
+            margin: 0;
+            color: var(--negro);
+            font-size: 0.95rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .adicional-ubicacion {
+            margin: 0;
+            color: var(--gris-texto);
+            font-size: 0.78rem;
+            font-weight: 500;
+            line-height: 1.4;
+            display: flex;
+            align-items: flex-start;
+            gap: 4px;
+        }
+
+        .ubicacion-icon {
+            flex-shrink: 0;
+        }
+
+        .adicional-detalle-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 70;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 200ms ease;
+        }
+
+        .adicional-detalle-modal[hidden] {
+            display: none;
+        }
+
+        .adicional-detalle-modal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .adicional-detalle-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .adicional-detalle-content {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: min(820px, 100%);
+            max-height: 85vh;
+            overflow: hidden;
+            border-radius: var(--radio);
+            background: var(--blanco);
+            box-shadow: var(--sombra-panel);
+            transform: scale(0.96);
+            transition: transform 200ms ease;
+        }
+
+        .adicional-detalle-modal.open .adicional-detalle-content {
+            transform: scale(1);
+        }
+
+        .adicional-detalle-close {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: var(--gris-texto);
+            font-size: 1.7rem;
+            line-height: 1;
+            cursor: pointer;
+            z-index: 1;
+            transition: color 160ms ease;
+        }
+
+        .adicional-detalle-close:hover {
+            color: var(--negro);
+        }
+
+        .adicional-detalle-foto {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 280px;
+            background:
+                repeating-linear-gradient(135deg, transparent 0 16px, rgba(38, 38, 38, 0.03) 16px 17px),
+                #f3f3f3;
+            color: rgba(38, 38, 38, 0.45);
+        }
+
+        .adicional-detalle-foto svg {
+            width: 56px;
+            height: 56px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .adicional-detalle-foto span {
+            font-size: 0.78rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .adicional-detalle-body {
+            display: flex;
+            flex-direction: column;
+            padding: 32px 28px 28px;
+            border-left: 5px solid var(--verde);
+            overflow-y: auto;
+        }
+
+        .adicional-detalle-categoria {
+            margin: 0 0 4px;
+            color: var(--verde);
+            font-size: 0.7rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .adicional-detalle-nombre {
+            margin: 0;
+            color: var(--negro);
+            font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            line-height: 1.05;
+        }
+
+        .adicional-detalle-content .red-rule {
+            margin: 14px 0 18px;
+        }
+
+        .adicional-detalle-descripcion {
+            margin: 0 0 22px;
+            color: var(--negro);
+            font-size: 0.92rem;
+            font-weight: 500;
+            line-height: 1.55;
+        }
+
+        .adicional-detalle-ubicacion-wrap {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px dashed rgba(38, 38, 38, 0.18);
+        }
+
+        .adicional-detalle-label {
+            margin: 0 0 4px;
+            color: var(--verde);
+            font-size: 0.68rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .adicional-detalle-ubicacion {
+            margin: 0;
+            color: var(--negro);
+            font-size: 0.92rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 720px) {
+            .adicional-detalle-content {
+                grid-template-columns: 1fr;
+                max-height: 90vh;
+            }
+
+            .adicional-detalle-foto {
+                min-height: 200px;
+            }
+
+            .adicional-detalle-body {
+                border-left: 0;
+                border-top: 5px solid var(--verde);
+                padding: 22px 20px 20px;
+            }
+        }
+
         .galeria {
             display: grid;
             grid-template-columns: 1fr 130px;
@@ -1998,6 +2372,24 @@
         </div>
     </div>
 
+    <div class="adicional-detalle-modal" id="adicionalDetalleModal" hidden aria-label="Detalle del adicional">
+        <div class="adicional-detalle-overlay" id="adicionalDetalleOverlay"></div>
+        <div class="adicional-detalle-content">
+            <button class="adicional-detalle-close" id="adicionalDetalleClose" type="button" aria-label="Cerrar">×</button>
+            <div class="adicional-detalle-foto" id="adicionalDetalleFoto"></div>
+            <div class="adicional-detalle-body">
+                <p class="adicional-detalle-categoria" id="adicionalDetalleCategoria"></p>
+                <h3 class="adicional-detalle-nombre" id="adicionalDetalleNombre"></h3>
+                <div class="red-rule" aria-hidden="true"></div>
+                <p class="adicional-detalle-descripcion" id="adicionalDetalleDescripcion"></p>
+                <div class="adicional-detalle-ubicacion-wrap">
+                    <p class="adicional-detalle-label">Ubicación en la unidad</p>
+                    <p class="adicional-detalle-ubicacion" id="adicionalDetalleUbicacion"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="lightbox" id="lightbox" hidden aria-label="Visor de fotos">
         <div class="lightbox-overlay" id="lightboxOverlay"></div>
         <div class="lightbox-stage">
@@ -2086,6 +2478,127 @@
                 { nombre: "1+1+1 eje", descripcion: "Ficha técnica para configuración 1+1+1 eje.", pdf: pdfFichaUrl("semirremolques", productoNombre, "1-1-1-eje") }
             ];
         }
+
+        const adicionalesCategorias = [
+            {
+                id: "acople-conexion",
+                nombre: "Acople y Conexión",
+                items: [
+                    { nombre: "Acople Frenos", descripcion: "Dispositivo que actúa como punto de conexión entre el vehículo tractor y el sistema de frenado del remolque. Transforma la acción de frenado del coche en una acción de frenado proporcional en el remolque.", ubicacion: "En la parte delantera del remolque." },
+                    { nombre: "Acople Luces", descripcion: "Componente encargado de transmitir la energía eléctrica y las señales luminosas desde el vehículo tractor hacia el remolque.", ubicacion: "En la parte trasera del vehículo y en el remolque." },
+                    { nombre: "Enganche instalado", descripcion: "Dispositivo mecánico para acoplar un segundo remolque.", ubicacion: "Parte central del paragolpe trasero." },
+                    { nombre: "Brida adicional", descripcion: "La brida es el conjunto de piezas que sujeta el perno al chasis del semirremolque.", ubicacion: "En la parte inferior delantera del semirremolque (plato de enganche), donde acopla la rueda del camión." },
+                    { nombre: "Instalación hidráulica para conectar acoplado", descripcion: "Mangueras y acoples para pasar la presión hidráulica hacia atrás.", ubicacion: "Recorre el chasis hasta la cola de la unidad." }
+                ]
+            },
+            {
+                id: "rodado-frenos-suspension",
+                nombre: "Rodado, Frenos y Suspensión",
+                items: [
+                    { nombre: "Ejes con freno a disco", descripcion: "Sustitución de los frenos de tambor por discos para mayor potencia de frenado.", ubicacion: "En el extremo de cada eje de la unidad." },
+                    { nombre: "Frenos disco marca GEC", descripcion: "Sistema de frenos a disco provisto por la marca GEC, que ofrece mayor eficiencia de frenado y menor mantenimiento.", ubicacion: "En los ejes de la unidad." },
+                    { nombre: "Levanta eje neumático", descripcion: "Pulmón de aire que levanta un eje para evitar el desgaste de cubiertas en vacío.", ubicacion: "En el chasis, sobre el eje que se desea levantar." },
+                    { nombre: "Cambio de suspensión convencional a neumática por eje", descripcion: "Sustitución del sistema de suspensión mecánica por uno neumático independiente por eje, mejorando confort, estabilidad y cuidado de la carga.", ubicacion: "En cada eje de la unidad." },
+                    { nombre: "Tren delantero completo con llantas", descripcion: "Conjunto estructural que incluye eje delantero, suspensión, mazas y llantas, listo para montaje.", ubicacion: "Parte delantera del acoplado o unidad." },
+                    { nombre: "Tren retráctil en el 1° tramo del bitren", descripcion: "Sistema de ejes que puede retraerse en el primer módulo del bitren para optimizar maniobrabilidad y reducir desgaste en vacío.", ubicacion: "Primer tramo del bitren." },
+                    { nombre: "Tercer eje común en camión", descripcion: "Incorporación de un eje adicional común para aumentar la capacidad de carga y distribuir mejor el peso.", ubicacion: "En camión." },
+                    { nombre: "Tercer eje curvo en camión", descripcion: "Instalación de un eje adicional con diseño curvo que mejora la maniobrabilidad en giros y reduce el desgaste de neumáticos.", ubicacion: "En camión." },
+                    { nombre: "Equipo EBS y control de peso (telemetría)", descripcion: "Sistema electrónico de frenos (EBS) combinado con monitoreo de carga y telemetría, que permite controlar peso, rendimiento y comportamiento de la suspensión neumática.", ubicacion: "Integrado al sistema de frenos y suspensión de la unidad." }
+                ]
+            },
+            {
+                id: "estructura-chasis",
+                nombre: "Estructura y Chasis",
+                items: [
+                    { nombre: "Carrozado en chapa Domex y piso", descripcion: "Fabricación de la carrocería utilizando acero de alta resistencia Domex, incluyendo también el piso para mayor durabilidad estructural.", ubicacion: "Estructura general de la carrocería." },
+                    { nombre: "Unidad completa en Domex", descripcion: "Construcción integral de la unidad (chasis y carrocería) en acero Domex, logrando menor peso y mayor resistencia.", ubicacion: "Toda la unidad." },
+                    { nombre: "Cuello deprimido", descripcion: "Diseño del chasis con una sección rebajada en la zona delantera para disminuir la altura de carga y mejorar estabilidad.", ubicacion: "Parte delantera del semirremolque." },
+                    { nombre: "Paragolpe para carrocería", descripcion: "Estructura de protección trasera contra impactos.", ubicacion: "Parte posterior inferior del chasis." },
+                    { nombre: "Protección lateral", descripcion: "Barras de seguridad para evitar que vehículos menores se metan debajo del remolque.", ubicacion: "Entre los ejes y las patas de apoyo." },
+                    { nombre: "Patines para balsa", descripcion: "Dispositivo que actúa como elemento de protección ante desniveles del terreno.", ubicacion: "Colocado antes del paragolpe." },
+                    { nombre: "Zócalo de refuerzo en el pecho del sider", descripcion: "Refuerzo estructural inferior en el panel frontal del sider para resistir impactos de carga.", ubicacion: "Pecho del sider." },
+                    { nombre: "Diferencia por lanza extensible", descripcion: "Mecanismo que permite alargar o acortar la lanza de tiro según la carga.", ubicacion: "Parte frontal de acoplados." }
+                ]
+            },
+            {
+                id: "caja-carga",
+                nombre: "Caja de Carga y Configuración",
+                items: [
+                    { nombre: "Frente Completo", descripcion: "Panel frontal (pecho) de diferentes alturas según necesidad del cliente.", ubicacion: "Parte delantera de la carrocería." },
+                    { nombre: "Sobre baranda para batea", descripcion: "Dispositivos extra para aumentar la altura de la caja volcadora.", ubicacion: "Sobre las paredes laterales de la batea." },
+                    { nombre: "Sobrebaranda chipera", descripcion: "Dispositivos extra para aumentar la altura de la caja chipera.", ubicacion: "Sobre los laterales del equipo." },
+                    { nombre: "Tapas laterales para convertir BV en mixto", descripcion: "Paneles laterales desmontables que permiten transformar un BV en una configuración mixta apta para distintos tipos de carga.", ubicacion: "Laterales de la unidad." },
+                    { nombre: "Puerta trasera con camello para caballo", descripcion: "Puerta trasera con una elevación superior para permitir el paso de la cabeza del animal.", ubicacion: "Trasera del transporte de ganado." },
+                    { nombre: "Soporte de estacas (pecho con frente)", descripcion: "Apoyos para estacas integrados en el panel delantero.", ubicacion: "Pecho de la unidad." },
+                    { nombre: "Soporte de estacas (playo sin frente)", descripcion: "Soportes para estacas en unidades totalmente planas.", ubicacion: "Distribuidos en el perímetro del piso." },
+                    { nombre: "Pasamanos y alfajías", descripcion: "Marco superior de contención (cumbrera o marco superior) y maderas de separación.", ubicacion: "Perímetro superior y laterales de la caja de carga." },
+                    { nombre: "Tinteros", descripcion: "Orificios o receptáculos para insertar estacas o postes.", ubicacion: "Embutidos en el piso de la unidad." },
+                    { nombre: "Alargue de arco sobre baranda", descripcion: "Extensión de los arcos que sostienen la lona para ganar altura de carga.", ubicacion: "En la parte superior de la caja de carga." },
+                    { nombre: "Tapa fácil", descripcion: "Sistema de cobertura superior de apertura y cierre rápido mediante lona corrediza o enrollable, que facilita la carga y descarga sin necesidad de desatar manualmente. Para 9,30 m.", ubicacion: "Parte superior de la caja de carga." }
+                ]
+            },
+            {
+                id: "piso-superficie",
+                nombre: "Piso y Superficie de Carga",
+                items: [
+                    { nombre: "Piso chapa 1/8\" semillado", descripcion: "Configuración estándar de piso con relieve antideslizante de espesor 3,2 mm.", ubicacion: "Toda la superficie de carga." },
+                    { nombre: "Piso de aluminio para furgones", descripcion: "Superficie de carga liviana y apta para alimentos, usualmente acanalada.", ubicacion: "Interior de furgones." },
+                    { nombre: "Diferencia de piso 1/8 a 4 mm", descripcion: "Cambio del espesor de la chapa del piso para mayor resistencia a impactos o carga pesada.", ubicacion: "Piso de la unidad." },
+                    { nombre: "Diferencia de piso liso a semillado", descripcion: "Cambio de textura de la chapa por una con relieve antideslizante.", ubicacion: "Piso de la unidad." },
+                    { nombre: "Rejas para piso", descripcion: "Rejillas metálicas para drenaje o agarre adicional.", ubicacion: "Sobre el piso de carga." },
+                    { nombre: "Protección de carga para piso de aluminio acanalado", descripcion: "Revestimiento o sistema protector adicional que evita daños en el piso de aluminio durante la carga y descarga.", ubicacion: "Sobre el piso del furgón." }
+                ]
+            },
+            {
+                id: "sistemas-hidraulicos",
+                nombre: "Sistemas Hidráulicos",
+                items: [
+                    { nombre: "Equipo hidráulico para batea (en camión)", descripcion: "Kit de bomba, toma de fuerza y mandos para poder elevar el volcador.", ubicacion: "Se instala en el chasis del camión tractor." },
+                    { nombre: "Equipo hidráulico para volcadora", descripcion: "Cilindro y conexiones necesarias para el vuelco de la caja.", ubicacion: "Bajo la caja de carga o en el frente de la misma." },
+                    { nombre: "Depósito de aceite en batea", descripcion: "Tanque destinado al almacenamiento de aceite hidráulico necesario para el sistema de vuelco.", ubicacion: "Sobre o debajo de la batea, integrado al sistema hidráulico." },
+                    { nombre: "Bocas de descarga", descripcion: "Aberturas con cierre deslizante para descargar cereales por gravedad.", ubicacion: "En la parte inferior del remolque, en el chasis." },
+                    { nombre: "Inclinómetro", descripcion: "Dispositivo que mide el ángulo de inclinación de la unidad para prevenir vuelcos durante operaciones de descarga o circulación en terrenos irregulares.", ubicacion: "Cabina o chasis, visible para el operador." }
+                ]
+            },
+            {
+                id: "furgones-termicos",
+                nombre: "Equipamiento de Furgones y Térmicos",
+                items: [
+                    { nombre: "Divisorio desplazable para furgón térmico", descripcion: "Panel móvil que permite crear dos cámaras de temperatura distintas.", ubicacion: "Interior del furgón térmico." },
+                    { nombre: "Gancheras para furgón carnicero", descripcion: "Rieles con ganchos para el transporte de carne colgada.", ubicacion: "Sujetas al techo interno del furgón." },
+                    { nombre: "Protección interior de equipo de frío", descripcion: "Reja metálica para evitar que la carga golpee el motor de refrigeración.", ubicacion: "Pecho interno del furgón." },
+                    { nombre: "Puerta guillotina interior", descripcion: "Puerta de apertura vertical para acceso rápido o compartimentado.", ubicacion: "Interior del furgón." },
+                    { nombre: "Puerta lateral adicional térmica", descripcion: "Puerta extra para carga lateral manteniendo la aislación.", ubicacion: "Uno de los costados del furgón térmico." },
+                    { nombre: "Puerta simbra interior", descripcion: "Puerta batiente de rejilla para ventilación o separación interna.", ubicacion: "Interior de la unidad de carga." },
+                    { nombre: "Tronera para furgón térmico", descripcion: "Abertura controlada que permite la circulación de aire entre compartimentos o mejora la ventilación interna sin perder eficiencia térmica.", ubicacion: "Paneles internos del furgón térmico." },
+                    { nombre: "Ventiletes", descripcion: "Dispositivos de ventilación regulables que permiten el ingreso y egreso de aire para evitar condensación o acumulación de humedad.", ubicacion: "Laterales o parte trasera de la unidad." },
+                    { nombre: "Cambio de paneles a 75 mm", descripcion: "Modificación del espesor de los paneles isotérmicos a 75 mm para mejorar el aislamiento térmico respecto a configuraciones estándar.", ubicacion: "Paredes, techo y frente del furgón." },
+                    { nombre: "Cambio de paneles a 100 mm", descripcion: "Modificación del espesor de los paneles isotérmicos a 100 mm para mejorar el aislamiento térmico respecto a configuraciones estándar.", ubicacion: "Paredes, techo y frente del furgón." }
+                ]
+            },
+            {
+                id: "accesorios-operatividad",
+                nombre: "Accesorios y Operatividad",
+                items: [
+                    { nombre: "Amarre embutido tipo Masisa", descripcion: "Amarres embutidos en el piso fabricados por Lambert (no homologados). Diseñados para fajas de pallets, evitando amarrar al bandón.", ubicacion: "Distribuidos en el piso o laterales internos." },
+                    { nombre: "Anilla para amarre tipo ACINDAR", descripcion: "Amarre homologado, resistente, especialmente utilizado para cargas pesadas como bobinas de acero, hierro, chapa, entre otros.", ubicacion: "Distribuidos en el piso o laterales internos." },
+                    { nombre: "Caballete para siders", descripcion: "Estructura de soporte interna diseñada para transportar cargas específicas.", ubicacion: "En el interior de la unidad, sobre el piso." },
+                    { nombre: "Cajón cocina", descripcion: "Gabinete diseñado para guardar anafe, alimentos y utensilios. Medidas: 1170 × 500 × 540 mm. Modelo 2026.", ubicacion: "En el chasis de la unidad." },
+                    { nombre: "Cajón de herramientas chico", descripcion: "Compartimento metálico o plástico para herramientas menores. Medidas: 650 × 460 × 540 mm. Para carrocerías.", ubicacion: "En el chasis de la unidad." },
+                    { nombre: "Cajón de herramientas grande", descripcion: "Compartimento metálico o plástico de mayor capacidad que el cajón chico. Medidas: 1170 × 500 × 540 mm. Para semirremolques.", ubicacion: "En el chasis de la unidad." },
+                    { nombre: "Cajón para alfajías", descripcion: "Estructura alargada para almacenar las alfajías.", ubicacion: "En el chasis de la unidad." },
+                    { nombre: "Cajón porta estacas", descripcion: "Compartimento específico para guardar los postes verticales de contención.", ubicacion: "En el chasis de la unidad." },
+                    { nombre: "Malacates", descripcion: "Tensores mecánicos para ajustar las sogas de la lona o sujetar carga.", ubicacion: "Laterales del chasis o barandas." },
+                    { nombre: "Plataforma trasera rebatible tipo Baloni", descripcion: "Elevador hidráulico trasero para carga y descarga de mercadería pesada. Pensado para paquetero.", ubicacion: "Paragolpe trasero." },
+                    { nombre: "Portauxilio malacate", descripcion: "Accesorio de servicio y mantenimiento. Soporte estructural que incluye un mecanismo de izaje (cable de acero y engranaje).", ubicacion: "Debajo del chasis." },
+                    { nombre: "Trabas porta contenedor", descripcion: "Dispositivos mecánicos de fijación para asegurar contenedores al chasis.", ubicacion: "Distribuidos en el chasis." }
+                ]
+            }
+        ];
+
+        const adicionalesPlanos = adicionalesCategorias.flatMap((cat) =>
+            cat.items.map((it) => ({ ...it, categoriaId: cat.id, categoriaNombre: cat.nombre, slug: crearSlug(it.nombre) }))
+        );
 
         const categorias = [
             {
@@ -2285,7 +2798,8 @@
             }
 
             if (seccion === "adicionales") {
-                mostrarAdicionales();
+                const adicionalCatValida = adicionalesCategorias.some((c) => c.id === categoriaId);
+                mostrarAdicionales(adicionalCatValida ? categoriaId : null);
                 return;
             }
 
@@ -2325,16 +2839,118 @@
             `;
         }
 
-        function mostrarAdicionales() {
+        let adicionalFiltroCategoria = "todos";
+        let adicionalBusqueda = "";
+
+        function mostrarAdicionales(categoriaInicial) {
+            adicionalFiltroCategoria = categoriaInicial || "todos";
+            adicionalBusqueda = "";
+
+            const chipsHtml = ['<button class="adicional-chip" type="button" data-adicional-chip="todos">Todos <span class="chip-count">' + adicionalesPlanos.length + '</span></button>']
+                .concat(adicionalesCategorias.map((cat) => `<button class="adicional-chip" type="button" data-adicional-chip="${cat.id}">${cat.nombre} <span class="chip-count">${cat.items.length}</span></button>`))
+                .join("");
+
             catalogView.innerHTML = `
                 <div class="section-head">
                     <div class="section-title-wrap">
                         <h2 class="section-title">Adicionales</h2>
                     </div>
                 </div>
-                <div class="empty-state">Estamos construyendo este apartado. Más adelante se cargarán los adicionales disponibles.</div>
+                <p class="construction-copy">Listado completo de adicionales disponibles. Buscá por nombre o filtrá por categoría.</p>
+
+                <div class="adicional-search">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="m20 20-3.5-3.5"></path>
+                    </svg>
+                    <input type="search" id="adicionalSearchInput" placeholder="Buscar adicional..." autocomplete="off" aria-label="Buscar adicional">
+                </div>
+
+                <div class="adicional-chips" id="adicionalChips">${chipsHtml}</div>
+
+                <div class="adicional-grid" id="adicionalGrid"></div>
             `;
-            history.replaceState(null, "", "#adicionales");
+
+            renderAdicionalesGrid();
+            actualizarChips();
+
+            const input = document.getElementById("adicionalSearchInput");
+            input.addEventListener("input", (e) => {
+                adicionalBusqueda = e.target.value;
+                renderAdicionalesGrid();
+            });
+
+            const hash = adicionalFiltroCategoria === "todos" ? "#adicionales" : `#adicionales/${adicionalFiltroCategoria}`;
+            history.replaceState(null, "", hash);
+        }
+
+        function actualizarChips() {
+            document.querySelectorAll("[data-adicional-chip]").forEach((chip) => {
+                chip.classList.toggle("active", chip.dataset.adicionalChip === adicionalFiltroCategoria);
+            });
+        }
+
+        function renderAdicionalesGrid() {
+            const grid = document.getElementById("adicionalGrid");
+            if (!grid) return;
+            const q = normalizar(adicionalBusqueda);
+
+            const filtrados = adicionalesPlanos.filter((it) => {
+                if (adicionalFiltroCategoria !== "todos" && it.categoriaId !== adicionalFiltroCategoria) return false;
+                if (!q) return true;
+                const haystack = normalizar(`${it.nombre} ${it.descripcion} ${it.ubicacion} ${it.categoriaNombre}`);
+                return haystack.includes(q);
+            });
+
+            if (filtrados.length === 0) {
+                grid.innerHTML = `<div class="empty-state">Sin resultados para "${adicionalBusqueda}".</div>`;
+                return;
+            }
+
+            grid.innerHTML = filtrados.map((it) => `
+                <button class="adicional-card" type="button" data-adicional-slug="${it.slug}">
+                    <div class="adicional-foto adicional-foto-placeholder">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <rect x="3" y="5" width="18" height="14" rx="2"/>
+                            <circle cx="12" cy="12" r="3.5"/>
+                            <path d="M8 5l1.5-2h5L16 5"/>
+                        </svg>
+                        <span>Foto pendiente</span>
+                    </div>
+                    <div class="adicional-info">
+                        <h3 class="adicional-nombre">${it.nombre}</h3>
+                        <p class="adicional-ubicacion"><span class="ubicacion-icon" aria-hidden="true">📍</span>${it.ubicacion}</p>
+                    </div>
+                </button>
+            `).join("");
+        }
+
+        function abrirAdicionalDetalle(slug) {
+            const item = adicionalesPlanos.find((it) => it.slug === slug);
+            if (!item) return;
+            adicionalDetalleNombre.textContent = item.nombre;
+            adicionalDetalleCategoria.textContent = item.categoriaNombre;
+            adicionalDetalleDescripcion.textContent = item.descripcion;
+            adicionalDetalleUbicacion.textContent = item.ubicacion;
+            adicionalDetalleFoto.innerHTML = `
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="3" y="5" width="18" height="14" rx="2"/>
+                    <circle cx="12" cy="12" r="3.5"/>
+                    <path d="M8 5l1.5-2h5L16 5"/>
+                </svg>
+                <span>Foto pendiente</span>
+            `;
+            adicionalDetalleModal.hidden = false;
+            requestAnimationFrame(() => adicionalDetalleModal.classList.add("open"));
+            document.body.classList.add("variantes-open");
+        }
+
+        function cerrarAdicionalDetalle() {
+            adicionalDetalleModal.classList.remove("open");
+            document.body.classList.remove("variantes-open");
+            setTimeout(() => {
+                adicionalDetalleModal.hidden = true;
+            }, 220);
         }
 
         function mostrarCategoria(idCategoria, seccion = "fichas") {
@@ -2782,6 +3398,23 @@
             }
         });
 
+        const adicionalDetalleModal = document.querySelector("#adicionalDetalleModal");
+        const adicionalDetalleOverlay = document.querySelector("#adicionalDetalleOverlay");
+        const adicionalDetalleClose = document.querySelector("#adicionalDetalleClose");
+        const adicionalDetalleNombre = document.querySelector("#adicionalDetalleNombre");
+        const adicionalDetalleCategoria = document.querySelector("#adicionalDetalleCategoria");
+        const adicionalDetalleDescripcion = document.querySelector("#adicionalDetalleDescripcion");
+        const adicionalDetalleUbicacion = document.querySelector("#adicionalDetalleUbicacion");
+        const adicionalDetalleFoto = document.querySelector("#adicionalDetalleFoto");
+
+        adicionalDetalleClose.addEventListener("click", cerrarAdicionalDetalle);
+        adicionalDetalleOverlay.addEventListener("click", cerrarAdicionalDetalle);
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && adicionalDetalleModal.classList.contains("open")) {
+                cerrarAdicionalDetalle();
+            }
+        });
+
         const lightbox = document.querySelector("#lightbox");
         const lightboxOverlay = document.querySelector("#lightboxOverlay");
         const lightboxImage = document.querySelector("#lightboxImage");
@@ -2943,6 +3576,22 @@
             const galeriaThumb = event.target.closest("[data-galeria-thumb]");
             if (galeriaThumb) {
                 cambiarFotoPrincipal(parseInt(galeriaThumb.dataset.galeriaThumb, 10));
+                return;
+            }
+
+            const adicionalChip = event.target.closest("[data-adicional-chip]");
+            if (adicionalChip) {
+                adicionalFiltroCategoria = adicionalChip.dataset.adicionalChip;
+                renderAdicionalesGrid();
+                actualizarChips();
+                const hash = adicionalFiltroCategoria === "todos" ? "#adicionales" : `#adicionales/${adicionalFiltroCategoria}`;
+                history.replaceState(null, "", hash);
+                return;
+            }
+
+            const adicionalCard = event.target.closest("[data-adicional-slug]");
+            if (adicionalCard) {
+                abrirAdicionalDetalle(adicionalCard.dataset.adicionalSlug);
                 return;
             }
 
