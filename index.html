@@ -559,7 +559,12 @@
             }
 
             .hero-inner {
-                padding-top: 130px;
+                padding-top: 165px;
+                padding-bottom: 56px;
+            }
+
+            .hero-content {
+                padding-top: 8px;
             }
 
             .scroll-bar {
@@ -1082,6 +1087,268 @@
 
         body.variantes-open {
             overflow: hidden;
+        }
+
+        .galeria {
+            display: grid;
+            grid-template-columns: 1fr 130px;
+            gap: 18px;
+            align-items: start;
+        }
+
+        .galeria-loading {
+            padding: 40px;
+            color: var(--gris-texto);
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        .galeria-main {
+            position: relative;
+            display: block;
+            width: 100%;
+            padding: 0;
+            border: 0;
+            border-radius: var(--radio);
+            overflow: hidden;
+            background: #f0f0f0;
+            box-shadow: var(--sombra-card);
+            cursor: zoom-in;
+            aspect-ratio: 4 / 3;
+            transition: box-shadow 200ms ease;
+        }
+
+        .galeria-main:hover {
+            box-shadow: 0 12px 32px rgba(38, 38, 38, 0.22);
+        }
+
+        .galeria-main-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .galeria-main-zoom {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.55);
+            color: var(--blanco);
+            opacity: 0;
+            transition: opacity 200ms ease;
+            pointer-events: none;
+        }
+
+        .galeria-main:hover .galeria-main-zoom {
+            opacity: 1;
+        }
+
+        .galeria-thumbs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 580px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .galeria-thumb {
+            position: relative;
+            display: block;
+            width: 100%;
+            padding: 0;
+            border: 2px solid transparent;
+            border-radius: var(--radio);
+            background: transparent;
+            cursor: pointer;
+            overflow: hidden;
+            aspect-ratio: 1;
+            transition: border-color 160ms ease, transform 160ms ease;
+        }
+
+        .galeria-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .galeria-thumb:hover {
+            transform: scale(0.97);
+        }
+
+        .galeria-thumb.active {
+            border-color: var(--verde);
+            box-shadow: 0 0 0 2px rgba(21, 153, 71, 0.3);
+        }
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 80;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 240ms ease;
+        }
+
+        .lightbox[hidden] {
+            display: none;
+        }
+
+        .lightbox.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(8, 9, 10, 0.94);
+        }
+
+        .lightbox-topbar {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+            color: var(--blanco);
+        }
+
+        .lightbox-counter {
+            font-size: 0.78rem;
+            font-weight: 700;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .lightbox-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lightbox-action {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radio);
+            color: var(--blanco);
+            background: rgba(255, 255, 255, 0.06);
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 160ms ease, border-color 160ms ease;
+        }
+
+        .lightbox-action:hover {
+            background: rgba(21, 153, 71, 0.25);
+            border-color: var(--verde);
+        }
+
+        .lightbox-close {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .lightbox-stage {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 70px 30px;
+            min-height: 0;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            user-select: none;
+            touch-action: pinch-zoom;
+        }
+
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 52px;
+            height: 52px;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 50%;
+            color: var(--blanco);
+            background: rgba(0, 0, 0, 0.55);
+            font-size: 2rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: background 160ms ease, border-color 160ms ease;
+        }
+
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            background: rgba(21, 153, 71, 0.6);
+            border-color: var(--verde);
+        }
+
+        .lightbox-prev {
+            left: 14px;
+        }
+
+        .lightbox-next {
+            right: 14px;
+        }
+
+        body.lightbox-open {
+            overflow: hidden;
+        }
+
+        @media (max-width: 720px) {
+            .galeria {
+                grid-template-columns: 1fr;
+            }
+
+            .galeria-thumbs {
+                flex-direction: row;
+                max-height: none;
+                overflow-x: auto;
+                overflow-y: hidden;
+                padding: 4px 0;
+            }
+
+            .galeria-thumb {
+                flex: 0 0 88px;
+                width: 88px;
+            }
+
+            .lightbox-stage {
+                padding: 0 14px 16px;
+            }
+
+            .lightbox-prev,
+            .lightbox-next {
+                width: 42px;
+                height: 42px;
+                font-size: 1.6rem;
+            }
+
+            .lightbox-prev { left: 8px; }
+            .lightbox-next { right: 8px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1731,15 +1998,73 @@
         </div>
     </div>
 
+    <div class="lightbox" id="lightbox" hidden aria-label="Visor de fotos">
+        <div class="lightbox-overlay" id="lightboxOverlay"></div>
+        <div class="lightbox-stage">
+            <img class="lightbox-image" id="lightboxImage" alt="">
+            <button class="lightbox-prev" id="lightboxPrev" type="button" aria-label="Anterior">‹</button>
+            <button class="lightbox-next" id="lightboxNext" type="button" aria-label="Siguiente">›</button>
+        </div>
+        <div class="lightbox-topbar">
+            <span class="lightbox-counter" id="lightboxCounter"></span>
+            <div class="lightbox-actions">
+                <a class="lightbox-action" id="lightboxDownload" download="" target="_blank" rel="noopener" aria-label="Descargar">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                </a>
+                <button class="lightbox-action" id="lightboxShare" type="button" aria-label="Compartir">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                    </svg>
+                </button>
+                <button class="lightbox-action lightbox-close" id="lightboxClose" type="button" aria-label="Cerrar">×</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const PDF_BASE = "https://lambert-remolques.github.io/Banco-de-Unidades/fichas";
         const PDF_PLACEHOLDER = "https://example.com/ficha.pdf";
         const FOTO_PLACEHOLDER = "https://example.com/fotos";
+        const CLOUDINARY_CLOUD = "lambert-remolques";
+        const CLOUDINARY_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload`;
+        const FOTO_MAX_POR_GALERIA = 30;
 
         function pdfFichaUrl(categoria, productoNombre, ejeSlug) {
             const productoSlug = crearSlug(productoNombre);
             const sufijo = ejeSlug ? `-${ejeSlug}` : "";
             return `${PDF_BASE}/${categoria}/${productoSlug}${sufijo}.pdf`;
+        }
+
+        function cloudinaryFotoUrl(categoria, productoNombre, ejeSlug, numero, transform = "") {
+            const productoSlug = crearSlug(productoNombre);
+            const ejePath = ejeSlug ? `/${ejeSlug}` : "";
+            const tx = transform ? `${transform}/` : "";
+            return `${CLOUDINARY_BASE}/${tx}unidades/${categoria}/${productoSlug}${ejePath}/foto-${numero}.jpg`;
+        }
+
+        function cargarImagen(url) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = url;
+            });
+        }
+
+        async function detectarFotos(categoria, productoNombre, ejeSlug) {
+            const numeros = [];
+            for (let i = 1; i <= FOTO_MAX_POR_GALERIA; i++) {
+                const url = cloudinaryFotoUrl(categoria, productoNombre, ejeSlug, i);
+                const existe = await cargarImagen(url);
+                if (existe) {
+                    numeros.push(i);
+                } else {
+                    break;
+                }
+            }
+            return numeros;
         }
 
         function opcionesEjes(productoNombre) {
@@ -1982,7 +2307,7 @@
                 <p class="construction-copy">Banco interno para ordenar material técnico y visual de unidades. Elegí una sección para consultar fichas, revisar fotos o acceder a los adicionales de cada unidad.</p>
                 <div class="home-grid">
                     ${crearTarjetaInicio("Fichas técnicas", "Consulta de fichas PDF por categoría, unidad y configuración.", "fichas")}
-                    ${crearTarjetaInicio("Banco de fotos", "Apartado en construcción para organizar fotos de unidades por categoría.", "fotos")}
+                    ${crearTarjetaInicio("Banco de fotos", "Galería de fotos de cada unidad por categoría y configuración.", "fotos")}
                     ${crearTarjetaInicio("Adicionales", "Sección en construcción para próximos recursos complementarios.", "adicionales")}
                 </div>
             `;
@@ -2025,9 +2350,7 @@
                 ? categoria.productos.map((producto) => crearTarjetaProducto(producto, seccion)).join("")
                 : `<div class="empty-state">Todavía no hay unidades cargadas en esta categoría.</div>`;
 
-            const notaFotos = seccion === "fotos"
-                ? `<p class="construction-copy">Estamos diseñando el apartado de fotos de unidades. Por ahora, cada unidad queda preparada con el botón "Ver fotos".</p>`
-                : "";
+            const notaFotos = "";
 
             catalogView.innerHTML = `
                 <div class="section-head">
@@ -2048,7 +2371,14 @@
                     return crearTarjetaSeleccion(producto, "Seleccionar unidad", "");
                 }
 
-                return crearTarjetaAccion(producto.nombre, "", "Ver fotos", FOTO_PLACEHOLDER);
+                return `
+                    <button class="product-card product-card-button button-reset" type="button" data-galeria-directa="${crearSlug(producto.nombre)}">
+                        <h3 class="product-name">${producto.nombre}</h3>
+                        <p class="product-description">${producto.descripcion || ""}</p>
+                        <hr class="divider">
+                        <span class="card-action">Ver fotos</span>
+                    </button>
+                `;
             }
 
             if (producto.fichaDirecta) {
@@ -2116,6 +2446,116 @@
             history.replaceState(null, "", `#${seccion}/${categoria.id}/${slugProducto}`);
         }
 
+        function ejeDisplayName(ejeSlug) {
+            if (!ejeSlug) return "";
+            const partes = ejeSlug.split("-");
+            const ultimo = partes.pop();
+            return partes.join("+") + " " + ultimo;
+        }
+
+        let galeriaActual = null;
+
+        async function mostrarGaleria(idCategoria, productoNombre, ejeSlug) {
+            const categoria = categorias.find((item) => item.id === idCategoria);
+            const producto = categoria?.productos.find((item) => item.nombre === productoNombre);
+            if (!producto) return;
+
+            const seccion = "fotos";
+            seccionActual = seccion;
+            actualizarMenu(seccion);
+            actualizarHero(seccion);
+            categoryPanel.hidden = false;
+            actualizarBotones(idCategoria);
+            actualizarBreadcrumb(seccion, idCategoria);
+            productoEnVista = { categoria, producto, seccion };
+
+            const tituloUnidad = ejeSlug
+                ? `${producto.nombre} · ${ejeDisplayName(ejeSlug)}`
+                : producto.nombre;
+
+            catalogView.innerHTML = `
+                <button class="back-button" type="button" data-galeria-back="${crearSlug(producto.nombre)}">Volver</button>
+                <div class="section-head">
+                    <div class="section-title-wrap">
+                        <h2 class="section-title">${tituloUnidad}</h2>
+                    </div>
+                </div>
+                <div class="galeria-loading">Cargando fotos…</div>
+            `;
+
+            const numeros = await detectarFotos(idCategoria, productoNombre, ejeSlug);
+
+            if (numeros.length === 0) {
+                catalogView.innerHTML = `
+                    <button class="back-button" type="button" data-galeria-back="${crearSlug(producto.nombre)}">Volver</button>
+                    <div class="section-head">
+                        <div class="section-title-wrap">
+                            <h2 class="section-title">${tituloUnidad}</h2>
+                        </div>
+                    </div>
+                    <div class="empty-state">Próximamente cargaremos las fotos de esta unidad.</div>
+                `;
+                const hashParts = ["fotos", idCategoria, crearSlug(producto.nombre)];
+                if (ejeSlug) hashParts.push(ejeSlug);
+                history.replaceState(null, "", "#" + hashParts.join("/"));
+                return;
+            }
+
+            const fotos = numeros.map((n) => ({
+                numero: n,
+                thumb: cloudinaryFotoUrl(idCategoria, productoNombre, ejeSlug, n, "c_fill,w_400,h_400,q_auto,f_auto"),
+                main: cloudinaryFotoUrl(idCategoria, productoNombre, ejeSlug, n, "c_fit,w_1400,q_auto,f_auto"),
+                full: cloudinaryFotoUrl(idCategoria, productoNombre, ejeSlug, n, "c_fit,w_1920,q_auto,f_auto"),
+                original: cloudinaryFotoUrl(idCategoria, productoNombre, ejeSlug, n)
+            }));
+
+            galeriaActual = { fotos, productoNombre, ejeSlug, indice: 0 };
+
+            catalogView.innerHTML = `
+                <button class="back-button" type="button" data-galeria-back="${crearSlug(producto.nombre)}">Volver</button>
+                <div class="section-head">
+                    <div class="section-title-wrap">
+                        <h2 class="section-title">${tituloUnidad}</h2>
+                    </div>
+                </div>
+                <div class="galeria">
+                    <button class="galeria-main" type="button" data-galeria-abrir="0" aria-label="Ampliar foto">
+                        <img class="galeria-main-img" id="galeriaMainImg" src="${fotos[0].main}" alt="${producto.nombre} foto 1">
+                        <span class="galeria-main-zoom" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M11 8v6"/><path d="M8 11h6"/>
+                            </svg>
+                        </span>
+                    </button>
+                    <div class="galeria-thumbs">
+                        ${fotos.map((foto, i) => `
+                            <button class="galeria-thumb${i === 0 ? " active" : ""}" type="button" data-galeria-thumb="${i}" aria-label="Foto ${i + 1}">
+                                <img src="${foto.thumb}" alt="Thumbnail ${i + 1}" loading="lazy">
+                            </button>
+                        `).join("")}
+                    </div>
+                </div>
+            `;
+
+            const hashParts = ["fotos", idCategoria, crearSlug(producto.nombre)];
+            if (ejeSlug) hashParts.push(ejeSlug);
+            history.replaceState(null, "", "#" + hashParts.join("/"));
+        }
+
+        function cambiarFotoPrincipal(indice) {
+            if (!galeriaActual) return;
+            const foto = galeriaActual.fotos[indice];
+            if (!foto) return;
+            galeriaActual.indice = indice;
+            const mainImg = document.getElementById("galeriaMainImg");
+            if (mainImg) mainImg.src = foto.main;
+            document.querySelectorAll(".galeria-thumb").forEach((btn, i) => {
+                btn.classList.toggle("active", i === indice);
+            });
+            const abrir = document.querySelector("[data-galeria-abrir]");
+            if (abrir) abrir.dataset.galeriaAbrir = String(indice);
+        }
+
         function crearTarjetaOpcion(opcion, seccion = "fichas") {
             if (opcion.variantes?.length && seccion === "fichas") {
                 return `
@@ -2128,9 +2568,19 @@
                 `;
             }
 
-            const descripcion = seccion === "fotos" ? "" : opcion.descripcion;
-            const textoBoton = seccion === "fotos" ? "Ver fotos" : "Ver ficha técnica";
-            const url = seccion === "fotos" ? FOTO_PLACEHOLDER : opcion.pdf || PDF_PLACEHOLDER;
+            if (seccion === "fotos") {
+                return `
+                    <button class="product-card product-card-button button-reset" type="button" data-galeria-eje="${crearSlug(opcion.nombre)}">
+                        <h3 class="product-name">${opcion.nombre}</h3>
+                        <hr class="divider">
+                        <span class="card-action">Ver fotos</span>
+                    </button>
+                `;
+            }
+
+            const descripcion = opcion.descripcion;
+            const textoBoton = "Ver ficha técnica";
+            const url = opcion.pdf || PDF_PLACEHOLDER;
 
             return crearTarjetaAccion(opcion.nombre, descripcion, textoBoton, url);
         }
@@ -2332,6 +2782,101 @@
             }
         });
 
+        const lightbox = document.querySelector("#lightbox");
+        const lightboxOverlay = document.querySelector("#lightboxOverlay");
+        const lightboxImage = document.querySelector("#lightboxImage");
+        const lightboxPrev = document.querySelector("#lightboxPrev");
+        const lightboxNext = document.querySelector("#lightboxNext");
+        const lightboxClose = document.querySelector("#lightboxClose");
+        const lightboxCounter = document.querySelector("#lightboxCounter");
+        const lightboxDownload = document.querySelector("#lightboxDownload");
+        const lightboxShare = document.querySelector("#lightboxShare");
+
+        let lightboxIndice = 0;
+
+        function abrirLightbox(indice) {
+            if (!galeriaActual?.fotos?.length) return;
+            lightboxIndice = indice;
+            actualizarLightbox();
+            lightbox.hidden = false;
+            requestAnimationFrame(() => lightbox.classList.add("open"));
+            document.body.classList.add("lightbox-open");
+        }
+
+        function cerrarLightbox() {
+            lightbox.classList.remove("open");
+            document.body.classList.remove("lightbox-open");
+            setTimeout(() => {
+                lightbox.hidden = true;
+                lightboxImage.src = "";
+            }, 240);
+        }
+
+        function actualizarLightbox() {
+            const total = galeriaActual.fotos.length;
+            if (lightboxIndice < 0) lightboxIndice = total - 1;
+            if (lightboxIndice >= total) lightboxIndice = 0;
+            const foto = galeriaActual.fotos[lightboxIndice];
+            lightboxImage.src = foto.full;
+            lightboxImage.alt = `${galeriaActual.productoNombre} foto ${lightboxIndice + 1}`;
+            lightboxCounter.textContent = `${lightboxIndice + 1} / ${total}`;
+            lightboxDownload.href = foto.original;
+            lightboxDownload.download = `${crearSlug(galeriaActual.productoNombre)}-${galeriaActual.ejeSlug || "foto"}-${foto.numero}.jpg`;
+            lightboxPrev.style.visibility = total > 1 ? "visible" : "hidden";
+            lightboxNext.style.visibility = total > 1 ? "visible" : "hidden";
+        }
+
+        lightboxPrev.addEventListener("click", () => { lightboxIndice--; actualizarLightbox(); });
+        lightboxNext.addEventListener("click", () => { lightboxIndice++; actualizarLightbox(); });
+        lightboxClose.addEventListener("click", cerrarLightbox);
+        lightboxOverlay.addEventListener("click", cerrarLightbox);
+
+        lightboxShare.addEventListener("click", async () => {
+            if (!galeriaActual) return;
+            const foto = galeriaActual.fotos[lightboxIndice];
+            const shareData = {
+                title: galeriaActual.productoNombre,
+                text: `${galeriaActual.productoNombre} - Lambert Remolques`,
+                url: foto.original
+            };
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                } catch (e) {
+                    // user cancelled
+                }
+            } else {
+                try {
+                    await navigator.clipboard.writeText(foto.original);
+                    alert("Link de la foto copiado al portapapeles");
+                } catch (e) {
+                    prompt("Copiá este link de la foto:", foto.original);
+                }
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (!lightbox.classList.contains("open")) return;
+            if (event.key === "Escape") cerrarLightbox();
+            else if (event.key === "ArrowLeft") { lightboxIndice--; actualizarLightbox(); }
+            else if (event.key === "ArrowRight") { lightboxIndice++; actualizarLightbox(); }
+        });
+
+        let lightboxTouchStartX = null;
+        lightbox.addEventListener("touchstart", (e) => {
+            if (e.touches.length === 1) lightboxTouchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        lightbox.addEventListener("touchend", (e) => {
+            if (lightboxTouchStartX === null || e.changedTouches.length !== 1) return;
+            const dx = e.changedTouches[0].clientX - lightboxTouchStartX;
+            if (Math.abs(dx) > 50) {
+                if (dx < 0) lightboxIndice++;
+                else lightboxIndice--;
+                actualizarLightbox();
+            }
+            lightboxTouchStartX = null;
+        });
+
         categoryList.addEventListener("click", (event) => {
             const button = event.target.closest("[data-category]");
             if (!button) return;
@@ -2364,6 +2909,49 @@
                 return;
             }
 
+            const galeriaEjeBtn = event.target.closest("[data-galeria-eje]");
+            if (galeriaEjeBtn && productoEnVista) {
+                mostrarGaleria(productoEnVista.categoria.id, productoEnVista.producto.nombre, galeriaEjeBtn.dataset.galeriaEje);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                return;
+            }
+
+            const galeriaDirectaBtn = event.target.closest("[data-galeria-directa]");
+            if (galeriaDirectaBtn) {
+                const categoriaId = document.querySelector(".category-button.active")?.dataset.category || "carrocerias";
+                const productoSlug = galeriaDirectaBtn.dataset.galeriaDirecta;
+                const cat = categorias.find((c) => c.id === categoriaId);
+                const prod = cat?.productos.find((p) => crearSlug(p.nombre) === productoSlug);
+                if (prod) {
+                    mostrarGaleria(categoriaId, prod.nombre, null);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+                return;
+            }
+
+            const galeriaBack = event.target.closest("[data-galeria-back]");
+            if (galeriaBack && productoEnVista) {
+                if (productoEnVista.producto.opciones?.length) {
+                    mostrarProducto(productoEnVista.categoria.id, crearSlug(productoEnVista.producto.nombre), "fotos");
+                } else {
+                    mostrarCategoria(productoEnVista.categoria.id, "fotos");
+                }
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                return;
+            }
+
+            const galeriaThumb = event.target.closest("[data-galeria-thumb]");
+            if (galeriaThumb) {
+                cambiarFotoPrincipal(parseInt(galeriaThumb.dataset.galeriaThumb, 10));
+                return;
+            }
+
+            const galeriaAbrir = event.target.closest("[data-galeria-abrir]");
+            if (galeriaAbrir && galeriaActual) {
+                abrirLightbox(parseInt(galeriaAbrir.dataset.galeriaAbrir, 10));
+                return;
+            }
+
             const producto = event.target.closest("[data-product]");
             if (!producto) return;
 
@@ -2392,6 +2980,20 @@
             if (categorias.some((categoria) => categoria.id === partes[0])) {
                 mostrarSeccion("fichas", partes[0], partes[1] || "");
                 return;
+            }
+
+            if (partes[0] === "fotos" && partes[1] && partes[2]) {
+                const cat = categorias.find((c) => c.id === partes[1]);
+                const prod = cat?.productos.find((p) => crearSlug(p.nombre) === partes[2]);
+                if (prod) {
+                    const ejeSlug = partes[3] || null;
+                    if (prod.opciones?.length && !ejeSlug) {
+                        mostrarSeccion("fotos", partes[1], partes[2]);
+                    } else {
+                        mostrarGaleria(partes[1], prod.nombre, ejeSlug);
+                    }
+                    return;
+                }
             }
 
             mostrarSeccion(partes[0], partes[1] || "acoplados", partes[2] || "");
